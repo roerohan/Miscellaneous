@@ -96,19 +96,21 @@ int main() {
     struct Node * head = NULL;
 
 
-    append( & head, 6, "Input", "Input", 10);
+    append( & head, 6, "Name1", "Address1", 10);
 
 
-    push( & head, 6, "Input", "Input", 10);
+    push( & head, 2, "Name2", "Address2", 11);
 
 
-    push( & head, 6, "Input", "Input", 10);
+    push( & head, 3, "Name3", "Address3", 9);
 
 
-    append( & head, 6, "Input", "Input", 10);
+    append( & head, 10, "Name4", "Address4", 2);
 
-    printf("\nSearched 1");
-    printf("\n%d", search(head, 1, 0));
+    printf("\nSearched age = 10");
+
+    int value = search(head, 1, 0);
+    printf("\nPresent at position: %d", value);
 
     printf("\n Created Linked list is: ");
     printList(head);
