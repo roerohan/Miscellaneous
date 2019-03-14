@@ -83,6 +83,35 @@ int search(struct Node * head, int x, int pos) {
     return search(head -> next, x, ++pos);
 }
 
+/* Function to reverse the linked list */
+void reverse(struct Node** head_ref)
+{
+    struct Node* first;
+    struct Node* rest;
+
+    /* empty list */
+    if (*head_ref == NULL)
+       return;
+
+    /* suppose first = {1, 2, 3}, rest = {2, 3} */
+    first = *head_ref;
+    rest  = first->next;
+
+    /* List has only one node */
+    if (rest == NULL)
+       return;
+
+    /* reverse the rest list and put the first element at the end */
+    reverse(&rest);
+    first->next->next  = first;
+
+    /* tricky step -- see the diagram */
+    first->next  = NULL;
+
+    /* fix the head pointer */
+    *head_ref = rest;
+}
+
 void printList(struct Node * node) {
     while (node != NULL) {
         printf("[ %d %d %s %s ]->", node -> age, node -> yearsOfExperience, node -> name, node -> address);
@@ -113,6 +142,10 @@ int main() {
     printf("\nPresent at position: %d", value);
 
     printf("\n Created Linked list is: ");
+    printList(head);
+
+    printf("\nThe reversed list is:");
+    reverse(&head);
     printList(head);
 
     return 0;
