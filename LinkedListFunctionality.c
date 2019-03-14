@@ -13,15 +13,15 @@ struct Node {
 
     char address[100];
     int yearsOfExperience;
-    struct Node * next;
+    struct Node* next;
 };
 
 
 /* Given a reference (pointer to pointer) to the head of a list
 and an int, inserts a new node on the front of the list. */
-void push(struct Node ** head_ref, int new_age, char name[50], char address[100], int yearsOfExperience) {
-    /* 1. allocate node */
-    struct Node * new_node = (struct Node * ) malloc(sizeof(struct Node));
+void push(struct Node** head_ref, int new_age, char name[50], char address[100], int yearsOfExperience) {
+    /* 1. allocate Node*/
+    struct Node* new_node = (struct Node* ) malloc(sizeof(struct Node));
 
     /* 2. put in the age */
     new_node -> age = new_age;
@@ -32,17 +32,17 @@ void push(struct Node ** head_ref, int new_age, char name[50], char address[100]
     /* 3. Make next of new node as head */
     new_node -> next = ( * head_ref);
 
-    /* 4. move the head to point to the new node */
+    /* 4. move the head to point to the new Node*/
     ( * head_ref) = new_node;
 }
 
 /* Given a reference (pointer to pointer) to the head
 of a list and an int, appends a new node at the end */
-void append(struct Node ** head_ref, int new_age, char name[50], char address[100], int yearsOfExperience) {
-    /* 1. allocate node */
-    struct Node * new_node = (struct Node * ) malloc(sizeof(struct Node));
+void append(struct Node** head_ref, int new_age, char name[50], char address[100], int yearsOfExperience) {
+    /* 1. allocate Node*/
+    struct Node* new_node = (struct Node* ) malloc(sizeof(struct Node));
 
-    struct Node * last = * head_ref; /* used in step 5*/
+    struct Node* last = * head_ref; /* used in step 5*/
 
     /* 2. put in the age */
     new_node -> age = new_age;
@@ -60,17 +60,17 @@ void append(struct Node ** head_ref, int new_age, char name[50], char address[10
         return;
     }
 
-    /* 5. Else traverse till the last node */
+    /* 5. Else traverse till the last Node*/
     while (last -> next != NULL)
         last = last -> next;
 
-    /* 6. Change the next of last node */
+    /* 6. Change the next of last Node*/
     last -> next = new_node;
     return;
 }
 
 /* Checks whether the value x is present in linked list */
-int search(struct Node * head, int x, int pos) {
+int search(struct Node* head, int x, int pos) {
     // Base case
     if (head == NULL)
         return -1;
@@ -93,26 +93,21 @@ void reverse(struct Node** head_ref)
     if (*head_ref == NULL)
        return;
 
-    /* suppose first = {1, 2, 3}, rest = {2, 3} */
     first = *head_ref;
     rest  = first->next;
 
-    /* List has only one node */
     if (rest == NULL)
        return;
 
-    /* reverse the rest list and put the first element at the end */
     reverse(&rest);
     first->next->next  = first;
 
-    /* tricky step -- see the diagram */
     first->next  = NULL;
 
-    /* fix the head pointer */
     *head_ref = rest;
 }
 
-void printList(struct Node * node) {
+void printList(struct Node* node) {
     while (node != NULL) {
         printf("[ %d %d %s %s ]->", node -> age, node -> yearsOfExperience, node -> name, node -> address);
         node = node -> next;
@@ -122,23 +117,22 @@ void printList(struct Node * node) {
 /* Driver program to test above functions*/
 int main() {
     /* Start with the empty list */
-    struct Node * head = NULL;
+    struct Node* head = NULL;
+
+    append( &head, 6, "Name1", "Address1", 10);
 
 
-    append( & head, 6, "Name1", "Address1", 10);
+    push( &head, 2, "Name2", "Address2", 11);
 
 
-    push( & head, 2, "Name2", "Address2", 11);
+    push( &head, 3, "Name3", "Address3", 9);
 
 
-    push( & head, 3, "Name3", "Address3", 9);
-
-
-    append( & head, 10, "Name4", "Address4", 2);
+    append( &head, 10, "Name4", "Address4", 2);
 
     printf("\nSearched age = 10");
 
-    int value = search(head, 1, 0);
+    int value = search(head, 10, 0);
     printf("\nPresent at position: %d", value);
 
     printf("\n Created Linked list is: ");
