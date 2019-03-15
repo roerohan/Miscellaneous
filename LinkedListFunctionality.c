@@ -176,7 +176,7 @@ int main() {
 
         case 4:
         printf("\nEnter the age to be searched: ");
-        scanf("%d", key);
+        scanf("%d", &key);
         int index = search(head, key, 0);
         if(index==-1){
             printf("Element not found");
