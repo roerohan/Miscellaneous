@@ -108,15 +108,16 @@ void reverse(struct Node** head_ref)
 }
 
 void printList(struct Node* node) {
+    printf("\n The list is printed in the order: age, years of experience, name, address\n");
     while (node != NULL) {
         printf("[ %d %d %s %s ]->", node -> age, node -> yearsOfExperience, node -> name, node -> address);
         node = node -> next;
     }
+    printf("\n");
 }
 
 /* Driver program to test above functions*/
-int main() {
-    /* Start with the empty list */
+int sampleLinkedList(){
     struct Node* head = NULL;
 
     append( &head, 6, "Name1", "Address1", 10);
@@ -141,6 +142,64 @@ int main() {
     printf("\nThe reversed list is:");
     reverse(&head);
     printList(head);
+    printf("\n");
+}
 
+int input(int* age, int* yearsOfExperience, char name[], char address[]){
+    printf("Enter the following fields respectively: 1) Name, 2) Address, 3) Age, 4) Years of Experience:\n");
+    scanf("%s%s%d%d", name, address, age, yearsOfExperience);
+}
+
+int main() {
+    /* Start with the empty list */
+    struct Node* head = NULL;
+    int choice = 0;
+    int age = 0, yearsOfExperience = 0;
+    char name[50];
+    char address[100];
+    int key = 0;
+    do{
+    printf("\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n", "1. Create a linked list", "2. Insert an item at the beginning",
+    "3. Insert an item at the end", "4. Search an item based on age", "5. Reverse the list", "6. Print the list", "0. Exit");
+    scanf("%d", &choice);
+    switch(choice){
+        case 1: sampleLinkedList();
+        break;
+
+        case 2: input(&age, &yearsOfExperience, name, address);
+        push(&head, age, name, address, yearsOfExperience);
+        break;
+
+        case 3: input(&age, &yearsOfExperience, name, address);
+        append(&head, age, name, address, yearsOfExperience);
+        break;
+
+        case 4:
+        printf("\nEnter the age to be searched: ");
+        scanf("%d", key);
+        int index = search(head, key, 0);
+        if(index==-1){
+            printf("Element not found");
+        }
+        else{
+            printf("Element found at position %d", index+1);
+        }
+        break;
+
+        case 5: reverse(&head);
+        printList(head);
+        break;
+
+        case 6: printList(head);
+        break;
+
+        case 0: exit(0);
+        break;
+
+        default: "You've entered a wrong number";
+
+    }
+
+    }while(choice!=0);
     return 0;
 }
