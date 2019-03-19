@@ -87,12 +87,12 @@ void printInorder(struct node* node)
 /* Given a binary tree, print its nodes in preorder*/
 void printPreorder(struct node* node)
 {
-	if (node == NULL)
+	if (node == NULL){
 		return;
+    }
 
 	/* first print key of node */
-	printf("%d ", node->key);
-
+	printf("-%d-", node->key);
 	/* then recur on left sutree */
 	printPreorder(node->left);
 
@@ -124,25 +124,22 @@ int createSampleTree()
 
 int main(){
     int choice;
+        struct node *root = NULL;
+        struct node* searchNode = NULL;
+        int key;
     do{
-        printf("\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n", "Choose one of the following options:",
+        printf("\n%s\n%s\n%s\n%s\n%s\n%s\n", "Choose one of the following options:",
         "1. Create a sample tree.",
         "2. Perform preorder traversal.",
         "3. Perform inorder traversal.",
         "4. Perform postorder traversal.",
         "5. Search an item in the tree.",
-        "6. Display items in the tree.",
         "0. Exit."
         );
         scanf("%d", &choice);
-        printf("here");
-        struct node *root;
-        int key;
-        fflush(stdout);
         switch (choice)
         {
             case 1:
-
                 root = insert(root, 50);
                 insert(root, 30);
                 insert(root, 20);
@@ -161,16 +158,20 @@ int main(){
                 printPostorder(root);
                 break;
             case 5:
-            scanf("%d", key);
-            search(root, key);
-                break;
-            case 6:
-
-                break;
+            scanf("%d", &key);
+            searchNode = search(root, key);
+            if (searchNode == NULL) {
+                printf("Not Found");
+            } else if (searchNode->key == key) {
+                printf("Found");
+            }
+            break;
             case 0:
+            printf("Exitting program. Bye :) \n");
             exit(0);
             break;
             default:
+                printf("Invalid choice. Please enter a valid choice.\n");
                 break;
         }
     }while(choice!=0);
