@@ -78,7 +78,7 @@ void printPreorder(struct node* node)
     }
 
 
-	printf("-%d-", node->key);
+	printf(" %d ", node->key);
 
 	printPreorder(node->left);
 
@@ -146,6 +146,7 @@ int main(){
                 printPostorder(root);
                 break;
             case 5:
+            printf("\nEnter item to search:\n");
             scanf("%d", &key);
             searchNode = search(root, key);
             if (searchNode == NULL) {
