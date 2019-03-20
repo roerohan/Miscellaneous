@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* A binary tree node has key, pointer to left child
-and a pointer to right child */
 struct node
 {
 	int key;
@@ -11,7 +9,6 @@ struct node
 	struct node* right;
 };
 
-// A utility function to create a new BST node
 struct node *newNode(int item)
 {
 	struct node *temp = (struct node *)malloc(sizeof(struct node));
@@ -22,85 +19,74 @@ struct node *newNode(int item)
 
 
 
-/* A utility function to insert a new node with given key in BST */
 struct node* insert(struct node* node, int key)
 {
-	/* If the tree is empty, return a new node */
 	if (node == NULL) return newNode(key);
 
-	/* Otherwise, recur down the tree */
+
 	if (key < node->key)
 		node->left = insert(node->left, key);
 	else if (key > node->key)
 		node->right = insert(node->right, key);
 
-	/* return the (unchanged) node pointer */
 	return node;
 }
 
 struct node* search(struct node* root, int key)
 {
-    // Base Cases: root is null or key is present at root
     if (root == NULL || root->key == key)
        return root;
 
-    // Key is greater than root's key
     if (root->key < key)
        return search(root->right, key);
 
-    // Key is smaller than root's key
     return search(root->left, key);
 }
-/* Given a binary tree, print its nodes according to the
-"bottom-up" postorder traversal. */
 void printPostorder(struct node* node)
 {
 	if (node == NULL)
 		return;
 
-	// first recur on left subtree
 	printPostorder(node->left);
 
-	// then recur on right subtree
 	printPostorder(node->right);
 
-	// now deal with the node
 	printf("%d ", node->key);
 }
 
-/* Given a binary tree, print its nodes in inorder*/
+
 void printInorder(struct node* node)
 {
 	if (node == NULL)
 		return;
 
-	/* first recur on left child */
+
 	printInorder(node->left);
 
-	/* then print the key of node */
+
 	printf("%d ", node->key);
 
-	/* now recur on right child */
+
 	printInorder(node->right);
 }
 
-/* Given a binary tree, print its nodes in preorder*/
+
 void printPreorder(struct node* node)
 {
 	if (node == NULL){
 		return;
     }
 
-	/* first print key of node */
+
 	printf("-%d-", node->key);
-	/* then recur on left sutree */
+
 	printPreorder(node->left);
 
-	/* now recur on right subtree */
+
 	printPreorder(node->right);
 }
 
-/* Driver program to test above functions*/
+
 int createSampleTree()
 {
 	struct node *root = newNode(1);
@@ -128,8 +114,8 @@ int main(){
         struct node* searchNode = NULL;
         int key;
     do{
-        printf("\n%s\n%s\n%s\n%s\n%s\n%s\n", "Choose one of the following options:",
-        "1. Create a sample tree.",
+        printf("\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n", "Choose one of the following options:",
+        "1. Add a node to the tree.",
         "2. Perform preorder traversal.",
         "3. Perform inorder traversal.",
         "4. Perform postorder traversal.",
@@ -140,13 +126,15 @@ int main(){
         switch (choice)
         {
             case 1:
-                root = insert(root, 50);
-                insert(root, 30);
-                insert(root, 20);
-                insert(root, 40);
-                insert(root, 70);
-                insert(root, 60);
-                insert(root, 80);
+                printf("\nEnter the value to be inserted: ");
+                int value;
+                scanf("%d", &value);
+                if (root==NULL){
+                    root = insert(root, value);
+                }
+                else{
+                    insert(root, value);
+                }
                 break;
             case 2:
                 printPreorder(root);
@@ -167,7 +155,7 @@ int main(){
             }
             break;
             case 0:
-            printf("Exitting program. Bye :) \n");
+            printf("Exiting program. Bye :) \n");
             exit(0);
             break;
             default:
