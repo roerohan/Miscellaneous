@@ -27,7 +27,7 @@ int main()
 {
     int i, n, val[20], wt[20], W;
 
-    printf("Enter number of items:");
+    printf("Enter number of items: ");
     scanf("%d", &n);
 
     printf("Enter value and weight of items:\n");
@@ -35,9 +35,9 @@ int main()
     	scanf("%d%d", &val[i], &wt[i]);
     }
 
-    printf("Enter size of knapsack:");
+    printf("Enter size of knapsack: ");
     scanf("%d", &W);
 
-    printf("%d", knapSack(W, wt, val, n));
+    printf("%d ", knapSack(W, wt, val, n));
     return 0;
 }
