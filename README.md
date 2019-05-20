@@ -1,5 +1,10 @@
 # Miscellaneous
-Random codes for future reference
 
-    Warning:
-    Clone at your own risk. Bad Code!
+Code for Assignments and Other Random Code.
+
+## Warning:
+
+Uncommented code, barely understandable variable names and poorly indented
+
+> Note: Clone at your own risk.
+
