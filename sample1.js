@@ -62,3 +62,15 @@ function newFunc() {
 console.log("\nOutput of newFunc():");
 var returnedVal = newFunc(); // Executes newFunc, prints the values, and stores the returned value in the variable
 console.log(returnedVal); // See the value of returnedVal.
+
+( // This paranthesis is for execution
+() => { // Start of function
+    console.log("This is a nameless function");
+} // End of function
+); // Execute a nameless function
+
+( // Execute
+    function () { // Alternative way to create nameless function
+        console.log("Another nameless function")
+    }
+);
