@@ -12,6 +12,6 @@ Add your name to the list below, and send a PR
 |:----:|:--------------:|
 | Rohan Mukherjee | [roerohan](https://github.com/roerohan) |
 | fonkamloic | [fonkamloic](https://github.com/fonkamloic) |
-| Matthew Castrillon-Madrigal | [matthewcm](https://github.com/matthewcm |
+| Matthew Castrillon-Madrigal | [matthewcm](https://github.com/matthewcm) |
 | lost1122 | [lost1122](https://github.com/lost1122) | 
 | flori4nk | [flori4nk](gitlab.com/flori4nk) |
