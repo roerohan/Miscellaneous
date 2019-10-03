@@ -32,8 +32,8 @@ bool push( Node** head_ref, int new_age, char name[NAMESIZE], char address[ADDRE
     new_node -> age = new_age;
     new_node -> yearsOfExperience = yearsOfExperience;
 
-
-    strncpy(new_node -> name, name, sizeof(char) * NAMESIZE);  //preventing buffer overflow using strncpy
+    //preventing buffer overflow using strncpy
+    strncpy(new_node -> name, name, sizeof(char) * NAMESIZE);  
     strncpy(new_node -> address, address, sizeof(char) * ADDRESSSIZE);
 
     /* 3. Make next of new node as head */
