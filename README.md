@@ -1,10 +1,17 @@
 # Miscellaneous
 
-Code for Assignments and Other Random Code.
+Code for Assignments and Other Random Scripts.
 
-## Warning:
+# Hacktoberfest 2019
 
-Mostly uncommented code, barely understandable variable names and poorly indented.
+Append your names below if you sent a PR for Hacktoberfest 2019!:
 
-> Note: Clone at your own risk.
+Add your name to the list below, and send a PR
 
+| Name | Github profile | 
+|:----:|:--------------:|
+| Rohan Mukherjee | [roerohan](https://github.com/roerohan) |
+| fonkamloic | [fonkamloic](https://github.com/fonkamloic) |
+| Matthew Castrillon-Madrigal | [matthewcm](https://github.com/matthewcm |
+| lost1122 | [lost1122](https://github.com/lost1122) | 
+| flori4nk | [flori4nk](gitlab.com/flori4nk) |
