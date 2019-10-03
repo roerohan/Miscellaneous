@@ -1,23 +1,18 @@
-/*Bank Acct Management system: Create Acct, deposit, withdraw, fund transfer within same bank, balance inquiry,
-display acct holder details, modify acct details, close acct permanently, loan request*/
+/* Bank Acct Management system: Create Acct, deposit, withdraw, fund transfer within same bank, balance inquiry,
+display acct holder details, modify acct details, close acct permanently, loan request */
+#include <string.h>
+#include <stdlib.h>
 #include<iostream>
-
 #include<fstream>
-
 #include<string>
 
-#include <string.h>
-
-#include <stdlib.h>
-
-using namespace std;
 class banker;
 class acct {
     private:
         int acctno;
-    string holdername;
-    string address;
-    string accttype;
+    std::string holdername;
+    std::string address;
+    std::string accttype;
     float balance;
     float loan;
     float income;
@@ -41,89 +36,108 @@ class acct {
     void loanrequest(int l);
     void transfer(int c, int amt);
     int getBalance();
-    string getName();
+    std::string getName();
 };
+
 int acct::no = 100835298;
-string acct::getName() {
+std::string acct::getName() {
     return holdername;
 }
+
 int acct::getBalance() {
     return balance;
 }
+
 void acct::createacct() {
-    cout << "Enter the name of the account holder:\n";
-    cin >> holdername;
-    cout << "Address of account holder:\n";
-    cin >> address;
-    cout << "Which type of account would you like? Savings or Current:\n";
-    cin >> accttype;
-    cout << "Please enter your starting balance(Rs.):\n";
-    cin >> balance;
-    cout << "For future loan purposes, what is your current annual salary?\n";
-    cin >> income;
+    std::cout << "Enter the name of the account holder:" << std::endl;
+    std::cin >> holdername;
+    std::cout << "Address of account holder:" << std::endl;
+    std::cin >> address;
+    std::cout << "Which type of account would you like? Savings or Current:" << std::endl;
+    std::cin >> accttype;
+    std::cout << "Please enter your starting balance(Rs.):" << std::endl;
+    std::cin >> balance;
+    std::cout << "For future loan purposes, what is your current annual salary?" << std::endl;
+    std::cin >> income;
     acctno = no++;
-    cout << "Your new account number: " << acctno << endl;
+    std::cout << "Your new account number: " << acctno << std::endl;
 }
+
 void acct::deposit(float n) {
     balance += n;
-    cout << "You have successfully deposited.\n" << "Balance: " << balance << endl;
+    std::cout << "You have successfully deposited." << std::endl << "Balance: " << balance << std::endl;
 }
+
 void acct::withdraw(float n) {
     balance -= n;
     if (balance < 0) {
-        cout << "You don't have enough money to withdraw Rs. " << n << endl;
+        std::cout << "You don't have enough money to withdraw Rs. " << n << std::endl;
         balance += n;
     } else
-        cout << "You have successfully withdrawn Rs. " << n << "\n" << "Remaining balance: " << balance << endl;
+        std::cout << "You have successfully withdrawn Rs. " << n << std::endl << "Remaining balance: " << balance << std::endl;
 }
+
 void acct::loanrequest(int l) {
     loan = l;
 }
+
 void acct::transfer(int c, int amt) {
     if (c == 1)
         balance += amt;
     else if (c == 2) {
         balance -= amt;
-        cout << "Successfully transferred";
+        std::cout << "Successfully transferred";
     }
 
 }
+
 void acct::display_details() {
-    cout << "Name: " << holdername << endl <<
-        "Account number: " << acctno << endl <<
-        "Address: " << address << endl <<
-        "Account type: " << accttype << endl <<
-        "Balance: " << balance << endl <<
-        "Amount of loan taken: " << loan << endl <<
-        "Income: " << income << endl;
+    std::cout << "Name: " << holdername << std::endl <<
+        "Account number: " << acctno << std::endl <<
+        "Address: " << address << std::endl <<
+        "Account type: " << accttype << std::endl <<
+        "Balance: " << balance << std::endl <<
+        "Amount of loan taken: " << loan << std::endl <<
+        "Income: " << income << std::endl;
 }
+
 void acct::modify_details() {
-    cout << "Enter the new name: ";
-    cin >> holdername;
-    cout << "Enter the new address: ";
-    cin >> address;
-    cout << "Enter the new income: ";
-    cin >> income;
+    std::cout << "Enter the new name: ";
+    std::cin >> holdername;
+    std::cout << "Enter the new address: ";
+    std::cin >> address;
+    std::cout << "Enter the new income: ";
+    std::cin >> income;
 }
+
 int main() {
-    fstream file;
+    std::fstream file;
     int choice, f;
     float amount;
     long pos;
-    string name;
+    std::string name;
     acct user;
     do {
-        cout << "\nWelcome. What do you want to do?" <<
-            "\n1. Create an account." <<
-            "\n2. Deposit money." <<
-            "\n3. Withdraw money." <<
-            "\n4. Display your details." <<
-            "\n5. Modify your details." <<
-            "\n6. Request for loan." <<
-            "\n7. Transfer money to other account" <<
-            "\n8. Close your account." <<
-            endl;
-        cin >> choice;
+        std::cout << std::endl << 
+            "Welcome. What do you want to do?" << 
+            std::endl <<
+            "1. Create an account." << 
+            std::endl <<
+            "2. Deposit money." << 
+            std::endl <<
+            "3. Withdraw money." << 
+            std::endl <<
+            "4. Display your details." << 
+            std::endl <<
+            "5. Modify your details." << 
+            std::endl <<
+            "6. Request for loan." << 
+            std::endl <<
+            "7. Transfer money to other account" << 
+            std::endl <<
+            "8. Close your account." <<
+            std::endl;
+        std::cin >> choice;
 
         f = 0;
 
@@ -132,25 +146,25 @@ int main() {
         else if (choice == 1) {
             f = 0;
         } else if (choice >= 2 && choice <= 8) {
-            cout << "Enter your name\n";
-            cin >> name;
+            std::cout << "Enter your name" << std::endl;
+            std::cin >> name;
         } else {
-            cout << "You seem to have entered a wrong number";
+            std::cout << "You seem to have entered a wrong number";
         }
 
-        //declares an object of the class acct.
+        // Declares an object of the class acct.
         switch (choice) {
-            case 1: //creates an account for the user
+            case 1: // Creates an account for the user
                 user.createacct();
-                file.open("database.dat", ios::binary | ios::app);
+                file.open("database.dat", std::ios::binary | std::ios::app);
                 file.write((char * ) & user, sizeof(user));
                 break;
 
-            case 2: //deposits money in the current users account
-                cout << "Enter the amount you want to deposit" << endl;
+            case 2: // Deposits money in the current users account
+                std::cout << "Enter the amount you want to deposit" << std::endl;
                 fflush(stdin);
                 scanf("%f", & amount);
-                file.open("database.dat", ios::binary | ios::out | ios:: in );
+                file.open("database.dat", std::ios::binary | std::ios::out | std::ios::in);
                 while (file.read((char * ) & user, sizeof(user))) {
                     if (user.getName().compare(name) == 0) {
                         user.deposit(amount);
@@ -162,15 +176,15 @@ int main() {
                     }
                 }
                 if (f == 0) {
-                    cout << "Not Found";
+                    std::cout << "Not Found";
                 }
                 break;
-
-            case 3: //withdraws money from the current users account
-                cout << "Enter the amount you want to withdraw" << endl;
+            
+            case 3: // Withdraws money from the current users account
+                std::cout << "Enter the amount you want to withdraw" << std::endl;
                 float amout;
-                cin >> amount;
-                file.open("database.dat", ios::binary | ios::out | ios:: in );
+                std::cin >> amount;
+                file.open("database.dat", std::ios::binary | std::ios::out | std::ios:: in );
 
                 while (file.read((char * ) & user, sizeof(user))) {
                     if (user.getName().compare(name) == 0) {
@@ -183,13 +197,13 @@ int main() {
                     }
                 }
                 if (f == 0) {
-                    cout << "Not Found";
+                    std::cout << "Not Found";
                 }
                 break;
 
-            case 4: //displays users details
-                cout << "Here are your details.\n";
-                file.open("database.dat", ios::binary | ios:: in );
+            case 4: // Displays users details
+                std::cout << "Here are your details." << std::endl;
+                file.open("database.dat", std::ios::binary | std::ios::in);
                 while (file.read((char * ) & user, sizeof(user))) {
                     if (user.getName().compare(name) == 0) {
                         user.display_details();
@@ -198,12 +212,12 @@ int main() {
                     }
                 }
                 if (f == 0) {
-                    cout << "Not Found";
+                    std::cout << "Not Found";
                 }
                 break;
 
-            case 5: //modify your account details
-                file.open("database.dat", ios::binary | ios::out | ios:: in );
+            case 5: // Modify your account details
+                file.open("database.dat", std::ios::binary | std::ios::out | std::ios::in);
                 while (file.read((char * ) & user, sizeof(user))) {
                     if (user.getName().compare(name) == 0) {
                         user.modify_details();
@@ -215,16 +229,16 @@ int main() {
                     }
                 }
                 if (f == 0) {
-                    cout << "Not Found";
+                    std::cout << "Not Found";
                 }
                 break;
 
-            case 6: //apply for loan
+            case 6: // Apply for loan
                 int l;
 
-                cout << "Enter the loan required: ";
-                cin >> l;
-                file.open("database.dat", ios::binary | ios::out | ios:: in );
+                std::cout << "Enter the loan required: ";
+                std::cin >> l;
+                file.open("database.dat", std::ios::binary | std::ios::out | std::ios::in);
                 while (file.read((char * ) & user, sizeof(user))) {
                     if (user.getName().compare(name) == 0) {
                         user.loanrequest(l);
@@ -236,21 +250,21 @@ int main() {
                     }
                 }
                 if (f == 0) {
-                    cout << "Not Found";
+                    std::cout << "Not Found";
                 }
                 break;
 
             case 7:
                 {
-                    string rec;
+                    std::string rec;
                     int amt;
-                    cout << "Enter recipient's name: ";
-                    cin >> rec;
-                    cout << "Enter amount: ";
-                    cin >> amt;
+                    std::cout << "Enter recipient's name: ";
+                    std::cin >> rec;
+                    std::cout << "Enter amount: ";
+                    std::cin >> amt;
                     int recipientBal,
                     senderBal;
-                    file.open("database.dat", ios::binary | ios::out | ios:: in );
+                    file.open("database.dat", std::ios::binary | std::ios::out | std::ios::in);
                     while (file.read((char * ) & user, sizeof(user))) {
                         if (user.getName().compare(name) == 0) {
                             senderBal = user.getBalance();
@@ -258,7 +272,7 @@ int main() {
                     }
                     file.close();
                     if (senderBal - amount > 0) {
-                        file.open("database.dat", ios::binary | ios::out | ios:: in );
+                        file.open("database.dat", std::ios::binary | std::ios::out | std::ios::in);
                         while (file.read((char * ) & user, sizeof(user))) {
                             if (user.getName().compare(rec) == 0) {
                                 user.transfer(1, amt);
@@ -271,17 +285,17 @@ int main() {
                             file.write((char * ) & user, sizeof(user));
                         }
                     } else {
-                        cout << "Sender has insufficient balance" << endl;
+                        std::cout << "Sender has insufficient balance" << std::endl;
                     }
                     break;
                 }
 
-            case 8: //close account
+            case 8: // Close account
                 {
                     int deleted;
-                    fstream file2;
-                    file.open("database.dat", ios::binary | ios::out | ios:: in );
-                    file2.open("temporary.dat", ios::binary | ios::out);
+                    std::fstream file2;
+                    file.open("database.dat", std::ios::binary | std::ios::out | std::ios::in);
+                    file2.open("temporary.dat", std::ios::binary | std::ios::out);
 
                     while (file.read((char * ) & user, sizeof(user))) {
                         if (user.getName().compare(name)) {
@@ -293,14 +307,12 @@ int main() {
                     file.close();
                     file2.close();
                     if (deleted == 0) {
-                        cout << "Not Found";
+                        std::cout << "Not Found";
                     } else {
-                        cout << "Deleted";
+                        std::cout << "Deleted";
                     }
                     deleted = remove("database.dat") == 0;
                     rename("temporary.dat", "database.dat");
-
-
                     break;
                 }
 
