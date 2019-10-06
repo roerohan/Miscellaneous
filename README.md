@@ -17,7 +17,6 @@ Agrega tu nombre a la lista de abajo, y envia un PR
 
 | Name | Github profile | 
 |:----:|:--------------:|
-| Xaca Rana :frog:| [xaca](https://github.com/xaca) |
 | Rohan Mukherjee | [roerohan](https://github.com/roerohan) |
 | fonkamloic | [fonkamloic](https://github.com/fonkamloic) |
 | Matthew Castrillon-Madrigal | [matthewcm](https://github.com/matthewcm) |
@@ -27,4 +26,5 @@ Agrega tu nombre a la lista de abajo, y envia un PR
 | Link | [RedstoneTek](https://github.com/RedstoneTek) |
 | atom | [atom](https://github.com/AtoMc) |
 | Deepanshu Chauhan | [cdeepanshu](https://github.com/cdeepanshu) |
+| Xaca Rana :frog:| [xaca](https://github.com/xaca) |
 
