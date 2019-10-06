@@ -6,13 +6,11 @@ Code for Assignments and Other Random Scripts.
 
 # English
 
-Append your names below if you sent a PR for Hacktoberfest 2019!:
-Add your name to the list below, and send a PR
+Append your names below if you sent a PR for Hacktoberfest 2019!
 
 # Español
 
-Agrega tu nombre abajo, si enviaste un pull request (PR) por Hacktoberfest 2019!:
-Agrega tu nombre a la lista de abajo, y envia un PR
+Agrega tu nombre abajo, si enviaste un pull request (PR) por Hacktoberfest 2019!
 
 
 | Name | Github profile | 
