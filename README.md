@@ -25,4 +25,4 @@ Agrega tu nombre abajo, si enviaste un pull request (PR) por Hacktoberfest 2019!
 | atom | [atom](https://github.com/AtoMc) |
 | Deepanshu Chauhan | [cdeepanshu](https://github.com/cdeepanshu) |
 | Xaca Rana :frog:| [xaca](https://github.com/xaca) |
-| Lakshay Almado | [lakshayalmadi](https://github.com/lakshayalmadi) |
+| Lakshay Almadi | [lakshayalmadi](https://github.com/lakshayalmadi) |
