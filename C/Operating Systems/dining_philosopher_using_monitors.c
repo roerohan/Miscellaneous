@@ -78,6 +78,7 @@ int main(){
         ForkAvil[i].taken=Philostatus[i].left=Philostatus[i].right=0;
  
 	while(compltedPhilo<n){
+
 		for(i=0;i<n;i++)
             goForDinner(i);
 		printf("\nTill now num of philosophers completed dinner are %d\n\n",compltedPhilo);
