@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/Scheduling_Algorithms_c.dir/main.c.o  -o Scheduling_Algorithms_c 
