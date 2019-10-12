@@ -26,7 +26,7 @@ bool append( Node** , int , char [], char [], int );
 int input(int* , int* , char [], char []);
 int search(Node* , int , int );
 bool reverse(Node** );
-void printList(Node* ); 
+void printList(Node* );
 bool delList(Node **);
 int sampleLinkedList();
 bool delete_node(Node **, int , Node **);
@@ -44,7 +44,7 @@ int main() {
     int key = 0;
     do{
         printf("\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n", "1. Create a linked list", "2. Insert an item at the beginning",
-               "3. Insert an item at the end", "4. Search an item based on age","5. Delete an item from list", "6. Reverse the list", "7. Print the list", "0. Exit");
+               "3. Insert an item at the end", "4. Search an item based on age", "5. Reverse the list", "6. Print the list","7. Delete an item from list", "0. Exit");
         scanf("%d", &choice);
         switch(choice){
             case 1: sampleLinkedList();
@@ -71,8 +71,16 @@ int main() {
                 break;
 
 
-            case 5:
-                printf("\nEnter the age to be deleted: ");
+            
+            case 5: reverse(&head);
+                printList(head);
+                break;
+
+            case 6: printList(head);
+                break;
+                
+            case 7:
+                printf("\nEnter the age of the employee to be deleted: ");
                 scanf("%d", &key);
                 if( delete_node(&head, key, NULL) == true){
                     printf("Item deleted sucessfully :)\n");
@@ -80,12 +88,6 @@ int main() {
                     printf("Item not not found or not deleted :(\n");
                 break;
 
-            case 6: reverse(&head);
-                printList(head);
-                break;
-
-            case 7: printList(head);
-                break;
 
             case 0:  delList(&head);
                 exit(EXIT_SUCCESS);
@@ -98,7 +100,7 @@ int main() {
     return 0;
 }
 
- 
+
 /* Given a reference (pointer to pointer) to the head of a list
 and an int, inserts a new node on the front of the list. */
 bool push( Node** head_ref, int new_age, char name[NAMESIZE], char address[ADDRESSSIZE], int yearsOfExperience) {
@@ -272,8 +274,8 @@ bool delete_node(Node **head, int age , Node **previous){
             }
 		    //delete node
 		    free(*head);
-            
-		    //update head 
+
+		    //update head
 		    head = &(*previous);
 
 		    return true;
