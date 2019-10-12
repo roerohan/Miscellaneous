@@ -1,25 +1,20 @@
-public class Fibonacci{
+import java.util.*;
 
-	public static void fibonacciSecuence(int n)
+class Fibonacci {
+
+static int fib(int n) {
+double phi = (1 + Math.sqrt(5)) / 2;
+return (int) Math.round(Math.pow(phi, n)
+						/ Math.sqrt(5));
+}
+
+public static void main(String[] args) {
+	Scanner sn=new Scanner(System.in);
+	System.out.println("Enter limit:");
+	int n=sn.nextInt();
+	for(int i=1;i<=n;i++)
 	{
-		
-		int a = 0, b = 1, c = 0;
-
-		do{
-			System.out.print(a+" ");
-			c = a + b;
-			a = b;
-			b = c;
-		}while(--n>0);
-		System.out.println("");
+		System.out.println(fib(i));
 	}
-
-	public static void main(String[] args) {
-		/*
-			Calculate a number in and specific position on Fibonacci Secuence
-		*/
-		fibonacciSecuence(9);
-		fibonacciSecuence(12);
-
-	}
+}
 }
