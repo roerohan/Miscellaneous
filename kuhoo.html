@@ -1,0 +1,152 @@
+<html>
+
+<head>
+    <title>18BIT0101 q9</title>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="cities.json"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<style>
+
+    #select {
+        display: none;
+    }
+
+    input[type="text"],
+    select {
+        width: 200px;
+    }
+
+    .top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 15%;
+        background: #264d73;
+    }
+
+    .middle {
+        position: absolute;
+        top: 15%;
+        left: 0;
+        width: 100%;
+        height: 85%;
+        background: #b3c6ff;
+        font-size: 12px;
+        font-family: Consolas;
+    }
+
+    .bottom {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 8%;
+        background: #264d73;
+        z-index: 0;
+    }
+
+    i {
+        margin-right: 20px;
+    }
+
+    table {
+        margin: 0 auto;
+        height: 10%;
+        padding-top: 0px;
+        width: 30%;
+        /* border: 2px solid red; */
+    }
+
+    td:nth-child(1) {
+        text-align: right;
+        font-weight: 800;
+    }
+</style>
+
+<body>
+
+    <div class="top" style="text-align:center;">
+        <h1 style="color:white;"><i class="fa fa-calendar" style="font-size:48px;color:red"></i>Event Registration Form</h1>
+    </div>
+    <div class="middle">
+        <table cellpadding="10px">
+            <form method="POST" onsubmit="return check()">
+                <tr>
+                    <td>First Name</td>
+                    <td><input type="text"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Last Name</td>
+                    <td><input type="text"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Mailing Address</td>
+                    <td><input type="text" id="email"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td valign="top">City</td>
+                    <td valign="top">
+                        <input type="text" id="city" onkeyup="myFunc()"></td>
+                    <td style="width:200px">
+                        <select id="select"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>State</td>
+                    <td><select id="state" onchange="myFunc()"></select></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Zip Code</td>
+                    <td><input type="text" id="zip"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="border-top:1.5px dashed black;">Are you speaking at<br> the conference?</td>
+                    <td style="border-top:1.5px dashed black;"><input type="checkbox" name="speaking">Yes<input type="checkbox" name="speaking">No</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Conference pass</td>
+                    <td><input type="radio" name="pass">1-Day pass<br>
+                        <input type="radio" name="pass">2-Day pass<br>
+                        <input type="radio" name="pass">3-Day pass<br>
+                        <input type="radio" name="pass">4-Day pass
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="border-top:1.5px dashed black;">Meal Preference</td>
+                    <td style="border-top:1.5px dashed black;">
+                        <select id="meal">
+                        <option>Select</option>
+                        <option>Veg</option>
+                        <option>Non-Veg</option>
+                    </select>
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" id="display" style="text-align:center;color:red;"><pre> </pre></td>
+                </tr>
+                <div class="bottom">
+                    <tr>
+                        <td colspan="3" style="width:20%;position:absolute;z-index:1;text-align:center;bottom:0;"><input type="submit"></td>
+                    </tr>
+                </div>
+            </form>
+        </table>
+
+    </div>
+    <!-- <div class="bottom"></div> -->
+    <script src="q9.js"></script>
+</body>
+
+</html>
