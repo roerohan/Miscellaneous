@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<pthread.h>   //currently adding multi-threading support.
 #include<stdlib.h>
+#include <stdbool.h>
 
 #define NUM_PROCESSES 10
 
@@ -12,6 +13,11 @@
 #define THREAD_FIVE 5
 #define THREAD_SIX 6
 #define THREAD_SEVEN 7
+
+#define EXIT 0
+
+// memory locking when accessing a critical sections
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 typedef struct process {
 	char name[5];
@@ -26,8 +32,9 @@ processes;
 
 //thread argv
 typedef struct threadArgv{
-    processes process[NUM_PROCESSES][NUM_PROCESSES];
+    processes process[NUM_PROCESSES];
     int value[NUM_PROCESSES];
+    bool activeThread[NUM_PROCESSES];
     pthread_attr_t attr[NUM_PROCESSES];
     void *anything;
 }threadArgv;
@@ -36,7 +43,7 @@ typedef struct threadArgv{
 void bubble_sort(processes [], int );
 //int get_Processes(processes []);
 void SJF_P(processes [], int );
-void FCFS(processes [], int );
+//void FCFS(processes [], int );
 void SJF_P(processes [], int );
 void SJF_NP(processes [], int );
 void Priority_P(processes [], int );
@@ -44,19 +51,18 @@ void Priority_NP(processes [], int );
 void RR(processes [], int );
 
 //void *bubble_sort(void *);
-void *get_Processes(void *);
+void  *menu(void *arg);         // THREAD_ZERO
+void *get_Processes(void *);    // THREAD_ONE
+void *FCFS(void *);             // THREAD_TWO
 //void *SJF_P(void *);
-//void *FCFS(void *);
 //void *SJF_P(void *);
 //void *SJF_NP(void *);
 //void *Priority_P(void *);
 //void *Priority_NP(void *);
 //void *RR( void *);
-void  *menu(void *arg);
 
 int main() {
 
-    processes P[NUM_PROCESSES];
     int ch = -999, n;
 
     //pthread Ids
@@ -65,55 +71,103 @@ int main() {
     //thread argv
     threadArgv prosArgument;
 
+    // tagging threads as inactive for a start
+    for(int i = 0 ; i < NUM_PROCESSES; i++){
+        prosArgument.activeThread[i] = false;
+    }
+
+    processes *P = prosArgument.process;
+
     //create attribute
     pthread_attr_init(&(prosArgument.attr[THREAD_ZERO]));
+    pthread_create(&id[THREAD_ZERO], &prosArgument.attr[THREAD_ZERO], menu, &prosArgument);
+    pthread_join(id[THREAD_ZERO], &ch);
 
-    //
-    //pthread_attr_t menuAttr;
-    //pthread_attr_init(&menuAttr);
+    do{
+        if (ch == THREAD_ONE) {
+            pthread_attr_init(&(prosArgument.attr[THREAD_ONE]));
+            prosArgument.activeThread[THREAD_ONE] = true;
+            pthread_create(&id[THREAD_ONE], &prosArgument.attr[THREAD_ONE], get_Processes, &prosArgument);
+            pthread_join(id[THREAD_ONE], &n);
 
-
-    do {
-        pthread_create( &id[THREAD_ZERO], &prosArgument.attr[THREAD_ZERO], menu, &prosArgument);
-        pthread_join(id[THREAD_ZERO], &ch);
-
-        switch (ch) {
-
-            case 0:
-                pthread_attr_init(&(prosArgument.attr[THREAD_ONE]));
-                pthread_create(&id[THREAD_ONE], &prosArgument.attr[THREAD_ZERO], get_Processes, &prosArgument);
-                pthread_join(id[THREAD_ONE], &n);
-                //n = get_Processes(P);
-                break;
-            case 1:
-
-                FCFS(P, n);
-                break;
-            case 2:
-
-                SJF_P(P, n);
-
-                break;
-            case 3:
-
-                SJF_NP(P, n);
-                break;
-            case 4:
-
-                Priority_P(P, n);
-
-                break;
-            case 5:
-                Priority_NP(P, n);
-                break;
-            case 6:
-                RR(P, n);
-                break;
-            case 7:
-                printf("Terminated by user. Bye! :(\n");
-                exit(0);
+            //menu again
+            pthread_create(&id[THREAD_ZERO], &prosArgument.attr[THREAD_ZERO], menu, &prosArgument);
+            pthread_join(id[THREAD_ZERO], &ch);
         }
-    } while (ch != 7);
+        if (ch == THREAD_TWO) {
+            pthread_attr_init(&(prosArgument.attr[THREAD_TWO]));
+            prosArgument.activeThread[THREAD_TWO] = true;
+            pthread_create(&id[THREAD_TWO], &prosArgument.attr[THREAD_TWO], FCFS, &prosArgument);
+
+            //menu again
+            pthread_create(&id[THREAD_ZERO], &prosArgument.attr[THREAD_ZERO], menu, &prosArgument);
+            prosArgument.activeThread[THREAD_ZERO] = true;
+        }
+        if (ch == THREAD_THREE) {
+
+            SJF_P(P, n);
+
+
+            //menu again
+            pthread_create(&id[THREAD_ZERO], &prosArgument.attr[THREAD_ZERO], menu, &prosArgument);
+            prosArgument.activeThread[THREAD_ZERO] = true;
+        }
+        if (ch == THREAD_FOUR) {
+            SJF_NP(P, n);
+
+            //menu again
+            pthread_create(&id[THREAD_ZERO], &prosArgument.attr[THREAD_ZERO], menu, &prosArgument);
+            prosArgument.activeThread[THREAD_ZERO] = true;
+        }
+        if (ch == THREAD_FIVE) {
+            Priority_P(P, n);
+
+            //menu again
+            pthread_create(&id[THREAD_ZERO], &prosArgument.attr[THREAD_ZERO], menu, &prosArgument);
+            prosArgument.activeThread[THREAD_ZERO] = true;
+        }
+        if (ch == THREAD_SIX) {
+            Priority_NP(P, n);
+
+            //menu again
+            pthread_create(&id[THREAD_ZERO], &prosArgument.attr[THREAD_ZERO], menu, &prosArgument);
+            prosArgument.activeThread[THREAD_ZERO] = true;
+        }
+        if (ch == THREAD_SEVEN) {
+            RR(prosArgument.process, n);
+
+            //menu again
+            pthread_create(&id[THREAD_ZERO], &prosArgument.attr[THREAD_ZERO], menu, &prosArgument);
+            prosArgument.activeThread[THREAD_ZERO] = true;
+        }
+        if (ch == EXIT){
+            printf("Terminated by user. Bye! :(\n");
+        exit(EXIT_SUCCESS);
+        }
+
+        // wait for all active threads to terminate
+        for(int i = 0 ; i < THREAD_SEVEN; i++){
+           if(prosArgument.activeThread[i] == true){
+
+               int retval;
+               pthread_join(id[i], &retval);
+
+               if(pthread_equal(id[i], id[THREAD_ZERO]))
+                   ch = retval;
+               if(pthread_equal(id[i], id[THREAD_ONE]))
+                   n = retval;
+           }
+
+        }
+
+        // let's handle invalid  input choice
+        if( ch < THREAD_ZERO || ch > THREAD_SEVEN ){
+            //menu again
+            pthread_create(&id[THREAD_ZERO], &prosArgument.attr[THREAD_ZERO], menu, &prosArgument);
+            prosArgument.activeThread[THREAD_ZERO] = true;
+            pthread_join(id[THREAD_ZERO], &ch);
+        }
+}while (ch != EXIT_SUCCESS);
     return 0;
 }
 
@@ -124,15 +178,23 @@ void *menu(void *arg){
 
     printf("\n\n SIMULarrival_timeION OF CPU SCHEDULING ALGORITHMS\n");
     printf("\n Options:");
-    printf("\n 0. Enter process darrival_timea.");
-    printf("\n 1. FCFS");
-    printf("\n 2. SJF (Pre-emptive)");
-    printf("\n 3. SJF (Non Pre-emptive)");
-    printf("\n 4. Priority Scheduling (Pre-emptive)");
-    printf("\n 5. Priority Scheduling (Non Pre-emptive)");
-    printf("\n 6. Round Robin");
-    printf("\n 7. Exit\n Select : ");
+    printf("\n 1. Enter process darrival_timea.");
+    printf("\n 2. FCFS");
+    printf("\n 3. SJF (Pre-emptive)");
+    printf("\n 4. SJF (Non Pre-emptive)");
+    printf("\n 5. Priority Scheduling (Pre-emptive)");
+    printf("\n 6. Priority Scheduling (Non Pre-emptive)");
+    printf("\n 7. Round Robin");
+    printf("\n 0. Exit\n Select : ");
     scanf("%d", &(proStrut->value[0]));
+
+    //start critical section
+    pthread_mutex_lock(&mutex);
+
+    proStrut->activeThread[THREAD_ZERO] = false;
+
+    //end critical section
+    pthread_mutex_unlock(&mutex);
 
 
     pthread_exit(  proStrut->value[0]);
@@ -156,7 +218,7 @@ void bubble_sort(processes proc[], int n) {
 
 
 
-void *get_Processes(void *arg){//processes P[]) {
+void *get_Processes(void *arg){
     threadArgv *proArg = (threadArgv *)arg;
 	int i, n;
 	printf("\n Enter total no. of processes : ");
@@ -164,30 +226,42 @@ void *get_Processes(void *arg){//processes P[]) {
 	for (i = 0; i < n; i++) {
 		printf("\n PROCESS [%d]", i + 1);
 		printf(" Enter process name : ");
-		scanf("%s", & proArg->process[THREAD_ONE][i].name);
+		scanf("%s", & proArg->process[i].name);
 		printf(" Enter burst time : ");
-		scanf("%d", & proArg->process[THREAD_ONE][i].bust_time);
+		scanf("%d", & proArg->process[i].bust_time);
 		printf(" Enter arrival time : ");
-		scanf("%d", & proArg->process[THREAD_ONE][i].arrival_time);
+		scanf("%d", & proArg->process[i].arrival_time);
 		printf(" Enter priority : ");
-		scanf("%d", & proArg->process[THREAD_ONE][i].priority);
+		scanf("%d", & proArg->process[i].priority);
 	}
 	printf("\n PROC.\tB.T.\tA.T.\tPRIORITY");
 	for (i = 0; i < n; i++)
-		printf("\n %s\t%d\t%d\t%d", proArg->process[THREAD_ONE][i].name, proArg->process[THREAD_ONE][i].bust_time, proArg->process[THREAD_ONE][i].arrival_time, proArg->process[THREAD_ONE][i].priority);
-	return n;
+		printf("\n %s\t%d\t%d\t%d", proArg->process[i].name, proArg->process[i].bust_time, proArg->process[i].arrival_time, proArg->process[i].priority);
+    proArg->anything = (int *)n;
+
+    //start critical section
+    pthread_mutex_lock(&mutex);
+
+    proArg->activeThread[THREAD_ONE] = false;
+
+    //end critical section
+    pthread_mutex_unlock(&mutex);
+
+
+    pthread_exit(n);
 }
 
 
 // FCFS Algorithm
-void FCFS(processes P[], int n) {
-	processes proc[10];
+void *FCFS(void *arg) {   //processes P[], int n)
+    threadArgv *procAgr = (threadArgv *)arg;
+    processes proc[NUM_PROCESSES];
 	int sumw = 0, sumt = 0;
-	int x = 0;
+	int x = 0, n = (int *)procAgr->anything;
 	float avgwt = 0.0, avgta = 0.0;
 	int i, j;
 	for (i = 0; i < n; i++)
-		proc[i] = P[i];
+	    proc[i] = procAgr->process[i];
 
 
 	bubble_sort(proc, n);
@@ -422,7 +496,7 @@ void Priority_NP(processes P[], int n) {
 }
 
 
-//Round Robin Scheduling
+//Round Robin Schedulinggg
 void RR(processes P[], int n) {
 	int pflag = 0, t, tcurr = 0, k, i, Q = 0;
 	int sumw = 0, sumt = 0;
@@ -445,9 +519,11 @@ void RR(processes P[], int n) {
 	for (k = 0;; k++) {
 		if (k > n - 1)
 			k = 0;
-		if (proc1[k].bust_time > 0)
-			printf("  %d  %s", tcurr, proc1[k].name);
-		t = 0;
+		if (proc1[k].bust_time > 0) {
+            printf("  %d  %s", tcurr, proc1[k].name);
+        }
+        fflush(stdout);
+        t = 0;
 		while (t < Q && proc1[k].bust_time > 0) {
 			t++;
 			tcurr++;
