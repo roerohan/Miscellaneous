@@ -2,7 +2,16 @@
 #include<pthread.h>   //currently adding multi-threading support.
 #include<stdlib.h>
 
+#define NUM_PROCESSES 10
 
+#define THREAD_ZERO 0
+#define THREAD_ONE 1
+#define THREAD_TWO 2
+#define THREAD_THREE 3
+#define THREAD_FOUR 4
+#define THREAD_FIVE 5
+#define THREAD_SIX 6
+#define THREAD_SEVEN 7
 
 typedef struct process {
 	char name[5];
@@ -14,11 +23,19 @@ typedef struct process {
 }
 processes;
 
+
+//thread argv
+typedef struct threadArgv{
+    processes process[NUM_PROCESSES][NUM_PROCESSES];
+    int value[NUM_PROCESSES];
+    pthread_attr_t attr[NUM_PROCESSES];
+    void *anything;
+}threadArgv;
+
 //Prototypes
 void bubble_sort(processes [], int );
-int get_Processes(processes []);
+//int get_Processes(processes []);
 void SJF_P(processes [], int );
-void FCFS(processes [], int );
 void FCFS(processes [], int );
 void SJF_P(processes [], int );
 void SJF_NP(processes [], int );
@@ -26,37 +43,65 @@ void Priority_P(processes [], int );
 void Priority_NP(processes [], int );
 void RR(processes [], int );
 
+//void *bubble_sort(void *);
+void *get_Processes(void *);
+//void *SJF_P(void *);
+//void *FCFS(void *);
+//void *SJF_P(void *);
+//void *SJF_NP(void *);
+//void *Priority_P(void *);
+//void *Priority_NP(void *);
+//void *RR( void *);
+void  *menu(void *arg);
+
 int main() {
 
-    processes P[10];
-    int ch, n;
+    processes P[NUM_PROCESSES];
+    int ch = -999, n;
+
+    //pthread Ids
+    pthread_t id[NUM_PROCESSES];
+
+    //thread argv
+    threadArgv prosArgument;
+
+    //create attribute
+    pthread_attr_init(&(prosArgument.attr[THREAD_ZERO]));
+
+    //
+    //pthread_attr_t menuAttr;
+    //pthread_attr_init(&menuAttr);
+
+
     do {
-        printf("\n\n SIMULarrival_timeION OF CPU SCHEDULING ALGORITHMS\n");
-        printf("\n Options:");
-        printf("\n 0. Enter process darrival_timea.");
-        printf("\n 1. FCFS");
-        printf("\n 2. SJF (Pre-emptive)");
-        printf("\n 3. SJF (Non Pre-emptive)");
-        printf("\n 4. Priority Scheduling (Pre-emptive)");
-        printf("\n 5. Priority Scheduling (Non Pre-emptive)");
-        printf("\n 6. Round Robin");
-        printf("\n 7. Exit\n Select : ");
-        scanf("%d", & ch);
+        pthread_create( &id[THREAD_ZERO], &prosArgument.attr[THREAD_ZERO], menu, &prosArgument);
+        pthread_join(id[THREAD_ZERO], &ch);
+
         switch (ch) {
+
             case 0:
-                n = get_Processes(P);
+                pthread_attr_init(&(prosArgument.attr[THREAD_ONE]));
+                pthread_create(&id[THREAD_ONE], &prosArgument.attr[THREAD_ZERO], get_Processes, &prosArgument);
+                pthread_join(id[THREAD_ONE], &n);
+                //n = get_Processes(P);
                 break;
             case 1:
+
                 FCFS(P, n);
                 break;
             case 2:
+
                 SJF_P(P, n);
+
                 break;
             case 3:
+
                 SJF_NP(P, n);
                 break;
             case 4:
+
                 Priority_P(P, n);
+
                 break;
             case 5:
                 Priority_NP(P, n);
@@ -65,12 +110,33 @@ int main() {
                 RR(P, n);
                 break;
             case 7:
+                printf("Terminated by user. Bye! :(\n");
                 exit(0);
         }
     } while (ch != 7);
     return 0;
 }
 
+
+void *menu(void *arg){
+
+    threadArgv *proStrut = (threadArgv *)arg;
+
+    printf("\n\n SIMULarrival_timeION OF CPU SCHEDULING ALGORITHMS\n");
+    printf("\n Options:");
+    printf("\n 0. Enter process darrival_timea.");
+    printf("\n 1. FCFS");
+    printf("\n 2. SJF (Pre-emptive)");
+    printf("\n 3. SJF (Non Pre-emptive)");
+    printf("\n 4. Priority Scheduling (Pre-emptive)");
+    printf("\n 5. Priority Scheduling (Non Pre-emptive)");
+    printf("\n 6. Round Robin");
+    printf("\n 7. Exit\n Select : ");
+    scanf("%d", &(proStrut->value[0]));
+
+
+    pthread_exit(  proStrut->value[0]);
+}
 
 
 
@@ -87,24 +153,28 @@ void bubble_sort(processes proc[], int n) {
 		}
 }
 
-int get_Processes(processes P[]) {
+
+
+
+void *get_Processes(void *arg){//processes P[]) {
+    threadArgv *proArg = (threadArgv *)arg;
 	int i, n;
 	printf("\n Enter total no. of processes : ");
 	scanf("%d", & n);
 	for (i = 0; i < n; i++) {
 		printf("\n PROCESS [%d]", i + 1);
 		printf(" Enter process name : ");
-		scanf("%s", & P[i].name);
+		scanf("%s", & proArg->process[THREAD_ONE][i].name);
 		printf(" Enter burst time : ");
-		scanf("%d", & P[i].bust_time);
+		scanf("%d", & proArg->process[THREAD_ONE][i].bust_time);
 		printf(" Enter arrival time : ");
-		scanf("%d", & P[i].arrival_time);
+		scanf("%d", & proArg->process[THREAD_ONE][i].arrival_time);
 		printf(" Enter priority : ");
-		scanf("%d", & P[i].priority);
+		scanf("%d", & proArg->process[THREAD_ONE][i].priority);
 	}
 	printf("\n PROC.\tB.T.\tA.T.\tPRIORITY");
 	for (i = 0; i < n; i++)
-		printf("\n %s\t%d\t%d\t%d", P[i].name, P[i].bust_time, P[i].arrival_time, P[i].priority);
+		printf("\n %s\t%d\t%d\t%d", proArg->process[THREAD_ONE][i].name, proArg->process[THREAD_ONE][i].bust_time, proArg->process[THREAD_ONE][i].arrival_time, proArg->process[THREAD_ONE][i].priority);
 	return n;
 }
 
@@ -124,8 +194,9 @@ void FCFS(processes P[], int n) {
 
 
 	printf("\n\n PROC.\tB.T.\tA.T.");
-	for (i = 0; i < n; i++)
-		printf("\n %s\t%d\t%d", proc[i].name, proc[i].bust_time, proc[i].arrival_time);
+	for(i = 0; i < n; i++) {
+        printf("\n %s\t%d\t%d", proc[i].name, proc[i].bust_time, proc[i].arrival_time);
+    }
 
 
 	sumw = proc[0].wait_time = 0;
@@ -141,8 +212,11 @@ void FCFS(processes P[], int n) {
 	avgwt = (float) sumw / n;
 	avgta = (float) sumt / n;
 	printf("\n\n PROC.\tB.T.\tA.T.\tW.T\tT.A.T");
-	for (i = 0; i < n; i++)
-		printf("\n %s\t%d\t%d\t%d\t%d", proc[i].name, proc[i].bust_time, proc[i].arrival_time, proc[i].wait_time, proc[i].turn_around);
+	for (i = 0; i < n; i++) {
+        printf("\n %s\t%d\t%d\t%d\t%d", proc[i].name, proc[i].bust_time, proc[i].arrival_time, proc[i].wait_time,
+               proc[i].turn_around);
+
+    }
 
 
 	printf("0\t");
@@ -151,6 +225,10 @@ void FCFS(processes P[], int n) {
 		printf("%d      ", x);
 	}
 	printf("\n\n Average waiting time = %0.2f\n Average turn-around = %0.2f.", avgwt, avgta);
+
+	//flush printf buffer
+    fflush(stdout);
+
 }
 
 //Shortest Job First - Pre-emptive
@@ -179,55 +257,64 @@ void SJF_P(processes P[], int n) {
 	avgwt = (float) sumw / n;
 	avgta = (float) sumt / n;
 	printf("\n\n Average waiting time = %0.2f\n Average turn-around = %0.2f.", avgwt, avgta);
+    //flush printf buffer
+    fflush(stdout);
 }
 
 //SJF Non Pre-emptive
 void SJF_NP(processes P[], int n) {
-	processes proc[10];
-	processes t;
-	int sumw = 0, sumt = 0;
-	int x = 0;
-	float avgwt = 0.0, avgta = 0.0;
-	int i, j;
+    processes proc[10];
+    processes t;
+    int sumw = 0, sumt = 0;
+    int x = 0;
+    float avgwt = 0.0, avgta = 0.0;
+    int i, j;
 
 
-	for (i = 0; i < n; i++)
-		proc[i] = P[i];
+    for (i = 0; i < n; i++)
+        proc[i] = P[i];
 
 
-	bubble_sort(proc, n);
+    bubble_sort(proc, n);
 
 
-	for (i = 2; i < n; i++)
-		for (j = 1; j < n - i + 1; j++) {
-			if (proc[j].bust_time > proc[j + 1].bust_time) {
-				t = proc[j];
-				proc[j] = proc[j + 1];
-				proc[j + 1] = t;
-			}
-		}
+    for (i = 2; i < n; i++)
+        for (j = 1; j < n - i + 1; j++) {
+            if (proc[j].bust_time > proc[j + 1].bust_time) {
+                t = proc[j];
+                proc[j] = proc[j + 1];
+                proc[j + 1] = t;
+            }
+        }
 
 
-	printf("\n\n PROC.\tB.T.\tA.T.");
-	for (i = 0; i < n; i++)
-		printf("\n %s\t%d\t%d", proc[i].name, proc[i].bust_time, proc[i].arrival_time);
+    printf("\n\n PROC.\tB.T.\tA.T.");
+    fflush(stdout);
+
+    for (i = 0; i < n; i++){
+        printf("\n %s\t%d\t%d", proc[i].name, proc[i].bust_time, proc[i].arrival_time);
+
+    }
 
 
-	sumw = proc[0].wait_time = 0;
-	sumt = proc[0].turn_around = proc[0].bust_time - proc[0].arrival_time;
+    sumw = proc[0].wait_time = 0;
+    sumt = proc[0].turn_around = proc[0].bust_time - proc[0].arrival_time;
 
 
-	for (i = 1; i < n; i++) {
-		proc[i].wait_time = (proc[i - 1].bust_time + proc[i - 1].arrival_time + proc[i - 1].wait_time) - proc[i].arrival_time;;
-		proc[i].turn_around = (proc[i].wait_time + proc[i].bust_time);
-		sumw += proc[i].wait_time;
-		sumt += proc[i].turn_around;
-	}
-	avgwt = (float) sumw / n;
-	avgta = (float) sumt / n;
-	printf("\n\n PROC.\tB.T.\tA.T.\tW.T\tT.A.T");
-	for (i = 0; i < n; i++)
-		printf("\n %s\t%d\t%d\t%d\t%d", proc[i].name, proc[i].bust_time, proc[i].arrival_time, proc[i].wait_time, proc[i].turn_around);
+    for (i = 1; i < n; i++) {
+        proc[i].wait_time =
+                (proc[i - 1].bust_time + proc[i - 1].arrival_time + proc[i - 1].wait_time) - proc[i].arrival_time;;
+        proc[i].turn_around = (proc[i].wait_time + proc[i].bust_time);
+        sumw += proc[i].wait_time;
+        sumt += proc[i].turn_around;
+    }
+    avgwt = (float) sumw / n;
+    avgta = (float) sumt / n;
+    printf("\n\n PROC.\tB.T.\tA.T.\tW.T\tT.A.T");
+    for (i = 0; i < n; i++){
+        printf("\n %s\t%d\t%d\t%d\t%d", proc[i].name, proc[i].bust_time, proc[i].arrival_time, proc[i].wait_time,
+               proc[i].turn_around);
+    }
 
 
 	printf("0\t");
@@ -236,6 +323,9 @@ void SJF_NP(processes P[], int n) {
 		printf("%d      ", x);
 	}
 	printf("\n\n Average waiting time = %0.2f\n Average turn-around = %0.2f.", avgwt, avgta);
+
+    //flush printf buffer
+    fflush(stdout);
 }
 
 // Priority - Preemptive
@@ -265,6 +355,9 @@ void Priority_P(processes P[], int n) {
 	avgwt = (float) sumw / n;
 	avgta = (float) sumt / n;
 	printf("\n\n Average waiting time = %0.2f\n Average turn-around = %0.2f.", avgwt, avgta);
+
+    //flush printf buffer
+    fflush(stdout);
 }
 
 
@@ -323,6 +416,9 @@ void Priority_NP(processes P[], int n) {
 		printf("%d      ", x);
 	}
 	printf("\n\n Average waiting time = %0.2f\n Average turn-around = %0.2f.", avgwt, avgta);
+
+    //flush printf buffer
+    fflush(stdout);
 }
 
 
@@ -344,7 +440,7 @@ void RR(processes P[], int n) {
 		proc2[i] = proc1[i];
 
 	printf("\n Enter quantum time : ");
-	scanf("%d", & Q);
+	scanf("%d", &Q);
 
 	for (k = 0;; k++) {
 		if (k > n - 1)
@@ -372,6 +468,8 @@ void RR(processes P[], int n) {
 	avgwt = (float) sumw / n;
 	avgta = (float) sumt / n;
 	printf("\n\n Average waiting time = %0.2f\n Average turn-around = %0.2f.", avgwt, avgta);
-}
 
+    //flush printf buffer
+    fflush(stdout);
+}
 
