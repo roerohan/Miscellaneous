@@ -1,5 +1,5 @@
 #include<stdio.h>
-#include<pthread.h>   //currently adding multi-threading support.
+#include<pthread.h>
 #include<stdlib.h>
 #include <stdbool.h>
 
@@ -33,7 +33,7 @@ processes;
 //thread argv
 typedef struct threadArgv{
     processes process[NUM_PROCESSES];
-    int value[NUM_PROCESSES];
+    int number_of_process;
     bool activeThread[NUM_PROCESSES];
     pthread_attr_t attr[NUM_PROCESSES];
     void *anything;
@@ -42,9 +42,8 @@ typedef struct threadArgv{
 //Prototypes
 void bubble_sort(processes [], int );
 //int get_Processes(processes []);
-void SJF_P(processes [], int );
+//void SJF_P(processes [], int );
 //void FCFS(processes [], int );
-void SJF_P(processes [], int );
 void SJF_NP(processes [], int );
 void Priority_P(processes [], int );
 void Priority_NP(processes [], int );
@@ -54,7 +53,7 @@ void RR(processes [], int );
 void  *menu(void *arg);         // THREAD_ZERO
 void *get_Processes(void *);    // THREAD_ONE
 void *FCFS(void *);             // THREAD_TWO
-//void *SJF_P(void *);
+void *SJF_P(void *arg);
 //void *SJF_P(void *);
 //void *SJF_NP(void *);
 //void *Priority_P(void *);
@@ -104,9 +103,9 @@ int main() {
             prosArgument.activeThread[THREAD_ZERO] = true;
         }
         if (ch == THREAD_THREE) {
-
-            SJF_P(P, n);
-
+            pthread_attr_init(&(prosArgument.attr[THREAD_THREE]));
+            prosArgument.activeThread[THREAD_THREE];
+            pthread_create(&id[THREAD_THREE], &prosArgument.attr[THREAD_THREE], SJF_P, &prosArgument);
 
             //menu again
             pthread_create(&id[THREAD_ZERO], &prosArgument.attr[THREAD_ZERO], menu, &prosArgument);
@@ -175,7 +174,7 @@ int main() {
 void *menu(void *arg){
 
     threadArgv *proStrut = (threadArgv *)arg;
-
+    int choice;
     printf("\n\n SIMULarrival_timeION OF CPU SCHEDULING ALGORITHMS\n");
     printf("\n Options:");
     printf("\n 1. Enter process darrival_timea.");
@@ -186,7 +185,7 @@ void *menu(void *arg){
     printf("\n 6. Priority Scheduling (Non Pre-emptive)");
     printf("\n 7. Round Robin");
     printf("\n 0. Exit\n Select : ");
-    scanf("%d", &(proStrut->value[0]));
+    scanf("%d", &choice);
 
     //start critical section
     pthread_mutex_lock(&mutex);
@@ -197,7 +196,7 @@ void *menu(void *arg){
     pthread_mutex_unlock(&mutex);
 
 
-    pthread_exit(  proStrut->value[0]);
+    pthread_exit(choice);
 }
 
 
@@ -223,6 +222,7 @@ void *get_Processes(void *arg){
 	int i, n;
 	printf("\n Enter total no. of processes : ");
 	scanf("%d", & n);
+	proArg->number_of_process = n;
 	for (i = 0; i < n; i++) {
 		printf("\n PROCESS [%d]", i + 1);
 		printf(" Enter process name : ");
@@ -237,7 +237,6 @@ void *get_Processes(void *arg){
 	printf("\n PROC.\tB.T.\tA.T.\tPRIORITY");
 	for (i = 0; i < n; i++)
 		printf("\n %s\t%d\t%d\t%d", proArg->process[i].name, proArg->process[i].bust_time, proArg->process[i].arrival_time, proArg->process[i].priority);
-    proArg->anything = (int *)n;
 
     //start critical section
     pthread_mutex_lock(&mutex);
@@ -248,7 +247,7 @@ void *get_Processes(void *arg){
     pthread_mutex_unlock(&mutex);
 
 
-    pthread_exit(n);
+    pthread_exit(proArg->number_of_process);
 }
 
 
@@ -257,7 +256,7 @@ void *FCFS(void *arg) {   //processes P[], int n)
     threadArgv *procAgr = (threadArgv *)arg;
     processes proc[NUM_PROCESSES];
 	int sumw = 0, sumt = 0;
-	int x = 0, n = (int *)procAgr->anything;
+	int x = 0, n = procAgr->number_of_process;
 	float avgwt = 0.0, avgta = 0.0;
 	int i, j;
 	for (i = 0; i < n; i++)
@@ -306,7 +305,9 @@ void *FCFS(void *arg) {   //processes P[], int n)
 }
 
 //Shortest Job First - Pre-emptive
-void SJF_P(processes P[], int n) {
+void *SJF_P(void *arg){
+    threadArgv *progArg = (threadArgv *)arg;
+    int n = progArg->number_of_process;
 	int i, t_total = 0, tcurr, b[10], min_at, j, x, min_bust_time;
 	int sumw = 0, sumt = 0;
 	float avgwt = 0.0, avgta = 0.0;
@@ -314,8 +315,8 @@ void SJF_P(processes P[], int n) {
 
 
 	for (i = 0; i < n; i++) {
-		proc[i] = P[i];
-		t_total += P[i].bust_time;
+		proc[i] = progArg->process[i];
+		t_total += progArg->process[i].bust_time;
 	}
 
 
@@ -333,6 +334,8 @@ void SJF_P(processes P[], int n) {
 	printf("\n\n Average waiting time = %0.2f\n Average turn-around = %0.2f.", avgwt, avgta);
     //flush printf buffer
     fflush(stdout);
+
+    progArg->activeThread[THREAD_THREE] = false;
 }
 
 //SJF Non Pre-emptive
