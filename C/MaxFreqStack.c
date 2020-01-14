@@ -8,9 +8,11 @@ void createStack(int* arr, int len) {
 }
 
 void display(int* arr, int len) {
+    printf("\nThe current stack is: \n");
     for (int i = 0; i < len; i++) {
         printf("%d\n", arr[i]);
     }
+    printf("\n");
 }
 
 int findMaxFreqElement(int* arr, int len) {
@@ -42,15 +44,16 @@ void pop (int* arr, int len, int index) {
     }
 }
 
-int popMaxFreq(int* arr, int len) {
-    int elem = findMaxFreqElement(arr, len);
-    for (int i = 0; i < len; i ++) {
+int popMaxFreq(int* arr, int* len) {
+    int elem = findMaxFreqElement(arr, *len);
+    for (int i = 0; i < *len; i ++) {
         if (elem == arr[i]) {
-            pop(arr, len, i);
+            pop(arr, *len, i);
             i--;
+            (*len)--;
         }
     }
-    display(arr, len);
+    // display(arr, *len);
     return elem;
 }
 
@@ -63,7 +66,7 @@ int main() {
     createStack(arr, len);
     
     while (len > 0) {
-        printf("Popped Element: %d\n", popMaxFreq(arr, len));
+        printf("Popped Element: %d\n", popMaxFreq(arr, &len));
         display(arr, len);
     }    
     return 0;
