@@ -1,3 +1,5 @@
 a.out
 fcfs_non-preemptive
 sjf_preemtive
+
+**/*.out
