@@ -53,7 +53,6 @@ int popMaxFreq(int* arr, int* len) {
             (*len)--;
         }
     }
-    // display(arr, *len);
     return elem;
 }
 
