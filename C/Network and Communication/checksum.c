@@ -62,7 +62,7 @@ char* checksum(char a[50], char b[50]) {
                 break;
         }
         
-        printf(strncat(carry, sum, 1));
+        printf(sum);
         return strncat(&carry, sum, 1);
 		
 	}
@@ -99,7 +99,7 @@ int main()
         i++;
     }
 
-    checksum(temp1, temp2);
+    // printf("%s%s", input, checksum(temp1, temp2));
 
     // while (i < m*k) {
     //     temp1[i%m] = input[i]; 

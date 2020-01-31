@@ -3,7 +3,6 @@ void main()
 {
  char s[5][9];
  int i,j,n,cnt;
- clrscr();
  for(i=0;i<4;i++)
  {
   printf("Enter frame %d :",i);

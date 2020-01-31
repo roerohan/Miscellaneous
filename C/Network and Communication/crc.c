@@ -3,7 +3,6 @@
 void main() {
     int i,j,keylen,msglen;
     char input[100], key[30],temp[30],quot[100],rem[30],key1[30];
-    clrscr();
     printf("Enter Data: ");
     gets(input);
     printf("Enter Key: ");
