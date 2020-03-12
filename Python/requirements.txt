@@ -1,0 +1,5 @@
+matplotlib
+numpy
+seaborn
+sklearn
+mst_clustering 
