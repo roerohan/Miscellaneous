@@ -30,12 +30,11 @@ int main(int argc, char *argv[])
     // Bind the socket
     if (bind(socket_desc, (struct sockaddr *)&server, sizeof(server)) < 0)
     {
-
         // print the error message
         perror("bind failed. Error");
         return 1;
     }
-    puts("bind done");
+    puts("Bind to port - success.");
 
     // lsiten to the socket
     listen(socket_desc, 3);
@@ -48,7 +47,7 @@ int main(int argc, char *argv[])
 
     if (client_sock < 0)
     {
-        perror("accept failed");
+        perror("Accept failed");
         return 1;
     }
 
@@ -57,7 +56,7 @@ int main(int argc, char *argv[])
     // Receive a message from client
     while ((read_size = recv(client_sock, &message, 10 * sizeof(int), 0)) > 0)
     {
-
+        for (int i = 0; i < 10; i++) printf("%d", message[i]);
         bubble_sort(message, 10);
 
         write(client_sock, &message, 10 * sizeof(int));
@@ -86,8 +85,6 @@ void bubble_sort(int list[], int n)
         {
             if (list[d] > list[d + 1])
             {
-
-                /* Swapping */
                 t = list[d];
                 list[d] = list[d + 1];
                 list[d + 1] = t;
