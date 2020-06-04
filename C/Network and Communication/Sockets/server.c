@@ -1,71 +1,88 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <sys/socket.h>
-#include <stdlib.h>
-#include <netinet/in.h>
-#include <string.h>
-#define PORT 8080
+// Server code in C to sort the array 
+#include <arpa/inet.h> 
+#include <stdio.h> 
+#include <string.h> 
+#include <sys/socket.h> 
+#include <unistd.h> 
 
-void bubbleSort(int arr[], int n)
-{
-    int i, j;
-    for (i = 0; i < n - 1; i++)
-        for (j = 0; j < n - i - 1; j++)
-            if (arr[j] > arr[j + 1])
-            {
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
-            }
-}
+void bubble_sort(int[], int); 
 
-int main(int argc, char const *argv[])
-{
-    int server_fd, new_socket, valread;
-    struct sockaddr_in address;
-    int opt = 1;
-    int addrlen = sizeof(address);
-    char buffer[1024] = {0};
+// Driver code 
+int main(int argc, char* argv[]) 
+{ 
+	int socket_desc, client_sock, c, read_size; 
+	struct sockaddr_in server, client; 
+	int message[10], i; 
 
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
-    {
-        perror("socket failed");
-        exit(EXIT_FAILURE);
-    }
+	// Create socket 
+	socket_desc = socket(AF_INET, SOCK_STREAM, 0); 
+	if (socket_desc == -1) { 
+		printf("Could not create socket"); 
+	} 
+	puts("Socket created"); 
 
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)))
-    {
-        perror("setsockopt");
-        exit(EXIT_FAILURE);
-    }
+	// Prepare the sockaddr_in structure 
+	server.sin_family = AF_INET; 
+	server.sin_addr.s_addr = INADDR_ANY; 
+	server.sin_port = htons(8880); 
 
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(PORT);
+	// Bind the socket 
+	if (bind(socket_desc, (struct sockaddr*)&server, sizeof(server)) < 0) { 
 
-    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0)
-    {
-        perror("bind failed");
-        exit(EXIT_FAILURE);
-    }
-    if (listen(server_fd, 3) < 0)
-    {
-        perror("listen");
-        exit(EXIT_FAILURE);
-    }
-    if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t *)&addrlen)) < 0)
-    {
-        perror("accept");
-        exit(EXIT_FAILURE);
-    }
+		// print the error message 
+		perror("bind failed. Error"); 
+		return 1; 
+	} 
+	puts("bind done"); 
 
-    valread = read(new_socket, buffer, 1024);
+	// lsiten to the socket 
+	listen(socket_desc, 3); 
 
-    printf("Received message: %s\n", buffer);
-    // bubbleSort(buffer, size);
+	puts("Waiting for incoming connections..."); 
+	c = sizeof(struct sockaddr_in); 
 
-    char *result = buffer;
-    send(new_socket, result, strlen(result), 0);
-    printf("Message sent: %s\n", buffer);
-    return 0;
-}
+	// accept connection from an incoming client 
+	client_sock = accept(socket_desc, (struct sockaddr*)&client, (socklen_t*)&c); 
+
+	if (client_sock < 0) { 
+		perror("accept failed"); 
+		return 1; 
+	} 
+
+	puts("Connection accepted"); 
+
+	// Receive a message from client 
+	while ((read_size = recv(client_sock, &message, 10 * sizeof(int), 0)) > 0) { 
+
+		bubble_sort(message, 10); 
+
+		write(client_sock, &message, 10 * sizeof(int)); 
+	} 
+
+	if (read_size == 0) { 
+		puts("Client disconnected"); 
+	} 
+	else if (read_size == -1) { 
+		perror("recv failed"); 
+	} 
+
+	return 0; 
+} 
+
+// Function to sort the array 
+void bubble_sort(int list[], int n) 
+{ 
+	int c, d, t; 
+
+	for (c = 0; c < (n - 1); c++) { 
+		for (d = 0; d < n - c - 1; d++) { 
+			if (list[d] > list[d + 1]) { 
+
+				/* Swapping */
+				t = list[d]; 
+				list[d] = list[d + 1]; 
+				list[d + 1] = t; 
+			} 
+		} 
+	} 
+} 
