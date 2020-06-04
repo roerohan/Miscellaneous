@@ -10,15 +10,15 @@ int main(int argc, char* argv[])
 { 
 	int sock; 
 	struct sockaddr_in server; 
-	int server_reply[100]; 
-	int number[100] , i, temp; 
-int num=0;
+	int server_reply[10]; 
+	int number[10] , i, temp; 
 
 
-printf("Enter number of elements: ");
-scanf("%d",&num);
 
-for(i=0;i<num;i++){
+printf("Enter 10 elements to sort: ");
+
+
+for(i=0;i<10;i++){
 scanf("%d",&number[i]);
 }
 
@@ -41,19 +41,19 @@ scanf("%d",&number[i]);
 
 	puts("Connected\n"); 
 
-	if (send(sock, &number, num * sizeof(int), 0) < 0) { 
+	if (send(sock, &number, 10 * sizeof(int), 0) < 0) { 
 		puts("Send failed"); 
 		return 1; 
 	} 
 
 	// Receive a reply from the server 
-	if (recv(sock, &server_reply, num * sizeof(int), 0) < 0) { 
+	if (recv(sock, &server_reply, 10 * sizeof(int), 0) < 0) { 
 		puts("recv failed"); 
 		return 0; 
 	} 
 
 	puts("Server reply :\n"); 
-	for (i = 0; i < num; i++) { 
+	for (i = 0; i < 10; i++) { 
 		printf("%d\n", server_reply[i]); 
 	} 
 
