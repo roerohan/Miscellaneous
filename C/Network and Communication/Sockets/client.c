@@ -1,45 +1,63 @@
-#include <stdio.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <string.h>
-#define PORT 8080
+// Client code in C to sort the array 
+#include <arpa/inet.h> 
+#include <stdio.h> 
+#include <string.h> 
+#include <sys/socket.h> 
+#include <unistd.h> 
 
-int main(int argc, char const *argv[])
-{
-    int sock = 0, valread;
-    struct sockaddr_in serv_addr;
+// Driver code 
+int main(int argc, char* argv[]) 
+{ 
+	int sock; 
+	struct sockaddr_in server; 
+	int server_reply[100]; 
+	int number[100] , i, temp; 
+int num=0;
 
-    char buffer[1024] = {0};
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-    {
-        printf("\n Socket creation error \n");
-        return -1;
-    }
 
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(PORT);
+printf("Enter number of elements: ");
+scanf("%d",&num);
 
-    if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0)
-    {
-        printf("\nInvalid address/ Address not supported \n");
-        return -1;
-    }
-    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
-    {
-        printf("\nConnection Failed \n");
-        return -1;
-    }
-
-    printf("Enter message: ");
-    char message[100];
-    scanf("%s", &message);
-
-    send(sock, message, strlen(message), 0);
-
-    printf("\nMessage sent to Server.\n");
-
-    valread = read(sock, buffer, 1024);
-    printf("\nMessage received: %s\n", buffer);
-    return 0;
+for(i=0;i<num;i++){
+scanf("%d",&number[i]);
 }
+
+	// Create socket 
+	sock = socket(AF_INET, SOCK_STREAM, 0); 
+	if (sock == -1) { 
+		printf("Could not create socket"); 
+	} 
+	puts("Socket created"); 
+
+	server.sin_addr.s_addr = inet_addr("127.0.0.1"); 
+	server.sin_family = AF_INET; 
+	server.sin_port = htons(8880); 
+
+	// Connect to remote server 
+	if (connect(sock, (struct sockaddr*)&server, sizeof(server)) < 0) { 
+		perror("connect failed. Error"); 
+		return 1; 
+	} 
+
+	puts("Connected\n"); 
+
+	if (send(sock, &number, num * sizeof(int), 0) < 0) { 
+		puts("Send failed"); 
+		return 1; 
+	} 
+
+	// Receive a reply from the server 
+	if (recv(sock, &server_reply, num * sizeof(int), 0) < 0) { 
+		puts("recv failed"); 
+		return 0; 
+	} 
+
+	puts("Server reply :\n"); 
+	for (i = 0; i < num; i++) { 
+		printf("%d\n", server_reply[i]); 
+	} 
+
+	// close the socket 
+	close(sock); 
+	return 0; 
+} 
