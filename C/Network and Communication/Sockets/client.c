@@ -1,4 +1,3 @@
-// Client code in C to sort the array
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <string.h>

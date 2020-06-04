@@ -56,7 +56,6 @@ int main(int argc, char *argv[])
     // Receive a message from client
     while ((read_size = recv(client_sock, &message, 10 * sizeof(int), 0)) > 0)
     {
-        for (int i = 0; i < 10; i++) printf("%d", message[i]);
         bubble_sort(message, 10);
 
         write(client_sock, &message, 10 * sizeof(int));
