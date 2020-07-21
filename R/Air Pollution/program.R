@@ -20,5 +20,5 @@ dirname <- "Airpollution"
 
 print(paste("The mean pollution for nitrate is:", meanpollutant(dirname, "nitrate", 23), sep = " "))
 
-print("The list of completely observed cases between id = 15 and id = 40")
-print(listofcomplete(dirname, 15:40))
+print("The list of completely observed cases between id = 15 and id = 23")
+print(listofcomplete(dirname, 15:23))
