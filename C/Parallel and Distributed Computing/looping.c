@@ -23,7 +23,7 @@ int main()
 #pragma omp parallel for private(i) shared(arr, n) reduction(+:sum) reduction(*:prod)
     for (i = 0; i < n; i++)
     {
-        printf("Thead %d: Array element at %lld is %lld\n", omp_get_thread_num(), i, *arr);
+        printf("Thread %d: Array element at %lld is %lld\n", omp_get_thread_num(), i, *arr);
         sum += *arr;
         prod *= *arr;
         arr++;
