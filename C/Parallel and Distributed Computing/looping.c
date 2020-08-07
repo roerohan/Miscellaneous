@@ -33,7 +33,7 @@ int main()
         #pragma omp critical (crit)
         {
             crit = i;
-            printf("\n%d is in it's critical section.\n", crit);
+            printf("\n%d is in it's critical section - process %d.\n", crit, omp_get_thread_num());
         }
     }
 
