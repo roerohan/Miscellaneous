@@ -1,0 +1,21 @@
+---
+version: "2.1"
+services:
+  wireshark:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wireshark
+    cap_add:
+      - NET_ADMIN
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ${HOME}/.Xauthority:/root/.Xauthority
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    # ports:
+    #   - 3000:3000 #optional
