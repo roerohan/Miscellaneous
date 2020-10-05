@@ -3,15 +3,15 @@
 a = int(input('Enter a number: '))
 b = int(input('Enter another number: '))
 
-c = input('Enter an operator (+, -, *, /): ')
+c = raw_input('Enter an operator (+, -, *, /): ')
 
 if (c == '+'):
-    print('Sum is: ' + (a + b))
+    print('Sum is: ' + str(a + b))
 elif (c == '-'):
-    print('Difference is: ' + (a - b))
+    print('Difference is: ' + str(a - b))
 elif (c == '*'):
-    print('Product is: ' + (a * b))
+    print('Product is: ' + str(a * b))
 elif (c == '/'):
-    print('Quotient is: ' + (a / b))
+    print('Quotient is: ' + str(a / b))
 else:
     print('Operator invalid!')
