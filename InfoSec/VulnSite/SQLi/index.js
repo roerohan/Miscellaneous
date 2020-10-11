@@ -2,6 +2,7 @@ import express from 'express';
 import mysql from 'mysql';
 import path from 'path';
 import bodyParser from 'body-parser';
+import preventInjection from './preventInjection.js';
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -21,7 +22,7 @@ app.get('/', (_req, res) => {
     res.sendFile(path.resolve('.', 'login.html'));
 });
 
-app.post('/', (req, res) => {
+app.post('/', preventInjection, (req, res) => {
     const { email, password } = req.body;
     const query = `SELECT * FROM USERS WHERE email='${email}' AND password='${password}'`;
 
