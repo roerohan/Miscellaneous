@@ -22,7 +22,8 @@ app.get('/', (_req, res) => {
     res.sendFile(path.resolve('.', 'login.html'));
 });
 
-app.post('/', preventInjection, (req, res) => {
+// app.post('/', preventInjection, (req, res) => {
+app.post('/', (req, res) => {
     const { email, password } = req.body;
     const query = `SELECT * FROM USERS WHERE email='${email}' AND password='${password}'`;
 
@@ -32,8 +33,11 @@ app.post('/', preventInjection, (req, res) => {
             return;
         }
 
-        if (results) {
-            res.send('Logged in successfully!');
+        if (results && results.length) {
+            console.log(results);
+            res.send('<h1>Logged in successfully!</h1>');
+        } else {
+            res.send('<h1>Login failed!</h1>');
         }
     });
 });
