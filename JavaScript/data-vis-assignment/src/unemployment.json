@@ -1,0 +1,42 @@
+[
+    {
+        "month": "Jan",
+        "percent": 3.6
+    },
+    {
+        "month": "Feb",
+        "percent": 3.6
+    },
+    {
+        "month": "Mar",
+        "percent": 3.8
+    },
+    {
+        "month": "Apr",
+        "percent": 3.7
+    },
+    {
+        "month": "May",
+        "percent": 4.2
+    },
+    {
+        "month": "Jun",
+        "percent": 4.5
+    },
+    {
+        "month": "Jul",
+        "percent": 4.3
+    },
+    {
+        "month": "Aug",
+        "percent": 4.2
+    },
+    {
+        "month": "Sep",
+        "percent": 4.4
+    },
+    {
+        "month": "Oct",
+        "percent": 4.4
+    }
+]

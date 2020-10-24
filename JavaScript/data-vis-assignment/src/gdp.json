@@ -1,0 +1,170 @@
+[
+    {
+        "country": "Austria",
+        "percentage": -13.3
+    },
+    {
+        "country": "Belgium",
+        "percentage": -14.5
+    },
+    {
+        "country": "Bulgaria",
+        "percentage": -8.2
+    },
+    {
+        "country": "Canada",
+        "percentage": -13.5
+    },
+    {
+        "country": "Chile",
+        "percentage": -13.7
+    },
+    {
+        "country": "China",
+        "percentage": 3.2
+    },
+    {
+        "country": "Colombia",
+        "percentage": -15.7
+    },
+    {
+        "country": "Cyprus",
+        "percentage": -11.9
+    },
+    {
+        "country": "Czech Republic",
+        "percentage": -10.7
+    },
+    {
+        "country": "Denmark",
+        "percentage": -8.5
+    },
+    {
+        "country": "EU",
+        "percentage": -14.1
+    },
+    {
+        "country": "Euro area",
+        "percentage": -15.0
+    },
+    {
+        "country": "Finland",
+        "percentage": -5.2
+    },
+    {
+        "country": "France",
+        "percentage": -19.0
+    },
+    {
+        "country": "Germany",
+        "percentage": -11.7
+    },
+    {
+        "country": "Hungary",
+        "percentage": -13.5
+    },
+    {
+        "country": "Indonesia",
+        "percentage": -5.4
+    },
+    {
+        "country": "Israel",
+        "percentage": -7.8
+    },
+    {
+        "country": "Italy",
+        "percentage": -17.3
+    },
+    {
+        "country": "Japan",
+        "percentage": -10.0
+    },
+    {
+        "country": "Latvia",
+        "percentage": -9.6
+    },
+    {
+        "country": "Lithuania",
+        "percentage": -3.7
+    },
+    {
+        "country": "Malaysia",
+        "percentage": -17.1
+    },
+    {
+        "country": "Mexico",
+        "percentage": -19.0
+    },
+    {
+        "country": "NAFTA",
+        "percentage": -10.8
+    },
+    {
+        "country": "Netherlands",
+        "percentage": -9.0
+    },
+    {
+        "country": "Nigeria",
+        "percentage": -6.1
+    },
+    {
+        "country": "Norway",
+        "percentage": -5.3
+    },
+    {
+        "country": "Peru",
+        "percentage": -30.2
+    },
+    {
+        "country": "Philippines",
+        "percentage": -16.5
+    },
+    {
+        "country": "Poland",
+        "percentage": -7.9
+    },
+    {
+        "country": "Portugal",
+        "percentage": -16.3
+    },
+    {
+        "country": "Romania",
+        "percentage": -10.5
+    },
+    {
+        "country": "Singapore",
+        "percentage": -13.2
+    },
+    {
+        "country": "Slovakia",
+        "percentage": -12.1
+    },
+    {
+        "country": "South Korea",
+        "percentage": -3.0
+    },
+    {
+        "country": "Spain",
+        "percentage": -22.1
+    },
+    {
+        "country": "Sweden",
+        "percentage": -8.3
+    },
+    {
+        "country": "Taiwan",
+        "percentage": -0.6
+    },
+    {
+        "country": "Tunisia",
+        "percentage": -21.6
+    },
+    {
+        "country": "United Kingdom",
+        "percentage": -21.7
+    },
+    {
+        "country": "United States",
+        "percentage": -9.5
+    }
+]
