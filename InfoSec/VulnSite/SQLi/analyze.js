@@ -13,4 +13,4 @@ total += sql_meta2 ? sql_meta2.length : 0;
 total += sql_typical ? sql_typical.length : 0;
 total += sql_union ? sql_union.length : 0;
 
-console.log(`There are ${total} instances of SQL injection / XSS in the log file 'combined.log'.`);
+console.log(`There are ${total} instances of SQL injection/XSS in the log file 'combined.log'.`);
