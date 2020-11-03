@@ -112,7 +112,6 @@ int main()
 		}
 	}
 
-
 	// The safe sequence has been generated and is stored in the array sequence
 	// The following for loop prints the safe sequence
 	printf("The 'SAFE SEQUENCE' is as follows:- \n");
