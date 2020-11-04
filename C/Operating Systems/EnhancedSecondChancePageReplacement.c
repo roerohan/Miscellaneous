@@ -79,15 +79,17 @@ void secondChance()
         else
         {
             pgfaultcnt++;
+            for (k = 0; k < nf; k++) {
+                printf("%d", referencedbit[k]);
+            }
             int found = 0;
             for (j = 0; j < nf; j++)
             {
-                if (referencedbit[victimptr] == 0 && modifybit[victimptr] == 0)
+                if (referencedbit[victimptr + j] == 0 && modifybit[victimptr + j] == 0)
                 {
                     found = 1;
-                    p[victimptr] = in[i];
-                    referencedbit[victimptr] = 1;
-                    victimptr++;
+                    p[victimptr + j] = in[i];
+                    referencedbit[victimptr + j] = 1;
                     break;
                 }
             }
@@ -96,12 +98,11 @@ void secondChance()
             {
                 for (j = 0; j < nf; j++)
                 {
-                    if (referencedbit[victimptr] == 0 && modifybit[victimptr] == 1)
+                    if (referencedbit[victimptr + j] == 0 && modifybit[victimptr + j] == 1)
                     {
                         found = 1;
-                        p[victimptr] = in[i];
-                        referencedbit[victimptr] = 1;
-                        victimptr++;
+                        p[victimptr + j] = in[i];
+                        referencedbit[victimptr + j] = 1;
                         break;
                     }
                 }
@@ -111,12 +112,11 @@ void secondChance()
             {
                 for (j = 0; j < nf; j++)
                 {
-                    if (referencedbit[victimptr] == 1 && modifybit[victimptr] == 0)
+                    if (referencedbit[victimptr + j] == 1 && modifybit[victimptr + j] == 0)
                     {
                         found = 1;
-                        p[victimptr] = in[i];
-                        referencedbit[victimptr] = 1;
-                        victimptr++;
+                        p[victimptr + j] = in[i];
+                        referencedbit[victimptr + j] = 1;
                         break;
                     }
                 }
@@ -126,22 +126,24 @@ void secondChance()
             {
                 for (j = 0; j < nf; j++)
                 {
-                    if (referencedbit[victimptr] == 1 && modifybit[victimptr] == 1)
+                    if (referencedbit[victimptr + j] == 1 && modifybit[victimptr + j] == 1)
                     {
                         found = 1;
-                        p[victimptr] = in[i];
-                        referencedbit[victimptr] = 1;
-                        victimptr++;
+                        p[victimptr + j] = in[i];
+                        referencedbit[victimptr + j] = 1;
                         break;
                     }
                 }
             }
+
+            victimptr += nf;
+
             dispPages();
         }
         if (victimptr == nf)
             victimptr = 0;
     }
-    printf("\nTotal no of page faults: %d", pgfaultcnt);
+    printf("\nTotal no of page faults: %d", pgfaultcnt - 1);
 }
 
 int main()
