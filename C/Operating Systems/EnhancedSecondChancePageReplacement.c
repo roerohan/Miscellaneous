@@ -79,9 +79,7 @@ void secondChance()
         else
         {
             pgfaultcnt++;
-            for (k = 0; k < nf; k++) {
-                printf("%d", referencedbit[k]);
-            }
+
             int found = 0;
             for (j = 0; j < nf; j++)
             {
@@ -136,14 +134,15 @@ void secondChance()
                 }
             }
 
-            victimptr += nf;
+            victimptr = 0;
 
             dispPages();
         }
         if (victimptr == nf)
             victimptr = 0;
     }
-    printf("\nTotal no of page faults: %d", pgfaultcnt - 1);
+
+    printf("\nTotal no of page faults: %d\n", pgfaultcnt);
 }
 
 int main()
