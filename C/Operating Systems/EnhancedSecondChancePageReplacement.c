@@ -141,7 +141,7 @@ void secondChance()
         if (victimptr == nf)
             victimptr = 0;
     }
-    printf("\nTotal no of page faults:%d", pgfaultcnt);
+    printf("\nTotal no of page faults: %d", pgfaultcnt);
 }
 
 int main()
