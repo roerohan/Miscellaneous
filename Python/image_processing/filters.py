@@ -1,3 +1,5 @@
+from functools import reduce
+
 def input_matrix():
     print("Size of matrix:", end=" ")
     size = int(input())
@@ -10,9 +12,11 @@ def input_matrix():
             matrix[i][j] = item
     return matrix
 
+
 def print_matrix(matrix, name="Matrix"):
     print(f"\n{name}:")
     print("\n".join([" ".join([str(cell) for cell in row]) for row in matrix]))
+
 
 def zero_boundary_padding(matrix, pad_element=0):
     size = len(matrix)
@@ -23,6 +27,7 @@ def zero_boundary_padding(matrix, pad_element=0):
     matrix = [[pad_element] * (size + 2)] + matrix
     return matrix
 
+
 def get_submatrix(matrix, row, col, size):
     submatrix = [[None] * size for _ in range(size)]
     for i in range(size):
@@ -30,8 +35,16 @@ def get_submatrix(matrix, row, col, size):
             submatrix[i][j] = matrix[i + row][j + col]
     return submatrix
 
+
 def mean(l):
     return sum(l) / len(l)
+
+
+def median(l):
+    l.sort()
+    mid = len(l) // 2
+    return (l[mid] + l[~mid]) / 2
+
 
 def min_filter(matrix, filter_size=3):
     size = len(matrix) - (filter_size // 2) * 2
@@ -44,6 +57,7 @@ def min_filter(matrix, filter_size=3):
 
     return filtered_matrix
 
+
 def max_filter(matrix, filter_size=3):
     size = len(matrix) - (filter_size // 2) * 2
     filtered_matrix = [[None] * size for _ in range(size)]
@@ -51,10 +65,10 @@ def max_filter(matrix, filter_size=3):
     for row in range(size):
         for col in range(size):
             submatrix = get_submatrix(matrix, row, col, filter_size)
-        
             filtered_matrix[row][col] = max(map(max, submatrix))
 
     return filtered_matrix
+
 
 def simple_smoothing_filter(matrix, filter_size=3):
     size = len(matrix) - (filter_size // 2) * 2
@@ -63,10 +77,22 @@ def simple_smoothing_filter(matrix, filter_size=3):
     for row in range(size):
         for col in range(size):
             submatrix = get_submatrix(matrix, row, col, filter_size)
-        
             filtered_matrix[row][col] = mean(list(map(mean, submatrix)))
 
     return filtered_matrix
+
+
+def median_filter(matrix, filter_size=3):
+    size = len(matrix) - (filter_size // 2) * 2
+    filtered_matrix = [[None] * size for _ in range(size)]
+
+    for row in range(size):
+        for col in range(size):
+            submatrix = get_submatrix(matrix, row, col, filter_size)
+            filtered_matrix[row][col] = median(reduce(lambda x, y: x + y, submatrix))
+
+    return filtered_matrix
+
 
 if __name__ == '__main__':
     matrix = input_matrix()
@@ -82,3 +108,6 @@ if __name__ == '__main__':
 
     simple_smoothing_filtered_matrix = simple_smoothing_filter(padded_matrix, filter_size=3)
     print_matrix(simple_smoothing_filtered_matrix, name="Matrix after Simple Smoothing Filter")
+
+    median_filtered_matrix = median_filter(padded_matrix, filter_size=3)
+    print_matrix(median_filtered_matrix, name="Matrix after Median Filter")
