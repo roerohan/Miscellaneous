@@ -30,8 +30,11 @@ def get_submatrix(matrix, row, col, size):
             submatrix[i][j] = matrix[i + row][j + col]
     return submatrix
 
+def mean(l):
+    return sum(l) / len(l)
+
 def min_filter(matrix, filter_size=3):
-    size = len(matrix) - 2
+    size = len(matrix) - (filter_size // 2) * 2
     filtered_matrix = [[None] * size for _ in range(size)]
 
     for row in range(size):
@@ -42,7 +45,7 @@ def min_filter(matrix, filter_size=3):
     return filtered_matrix
 
 def max_filter(matrix, filter_size=3):
-    size = len(matrix) - 2
+    size = len(matrix) - (filter_size // 2) * 2
     filtered_matrix = [[None] * size for _ in range(size)]
 
     for row in range(size):
@@ -50,6 +53,18 @@ def max_filter(matrix, filter_size=3):
             submatrix = get_submatrix(matrix, row, col, filter_size)
         
             filtered_matrix[row][col] = max(map(max, submatrix))
+
+    return filtered_matrix
+
+def simple_smoothing_filter(matrix, filter_size=3):
+    size = len(matrix) - (filter_size // 2) * 2
+    filtered_matrix = [[None] * size for _ in range(size)]
+
+    for row in range(size):
+        for col in range(size):
+            submatrix = get_submatrix(matrix, row, col, filter_size)
+        
+            filtered_matrix[row][col] = mean(list(map(mean, submatrix)))
 
     return filtered_matrix
 
@@ -64,3 +79,6 @@ if __name__ == '__main__':
 
     max_filtered_matrix = max_filter(padded_matrix, filter_size=3)
     print_matrix(max_filtered_matrix, name="Matrix after Max Filter")
+
+    simple_smoothing_filtered_matrix = simple_smoothing_filter(padded_matrix, filter_size=3)
+    print_matrix(simple_smoothing_filtered_matrix, name="Matrix after Simple Smoothing Filter")
