@@ -51,7 +51,12 @@ def max_filter(matrix, filter_size=3):
 
     return filtered_matrix
 
-padded_matrix = boundary_padding(matrix)
-print_matrix(padded_matrix, "Padded Matrix")
-filtered_matrix = min_filter(padded_matrix, filter_size=3)
-print_matrix(filtered_matrix, name="Matrix after Min Filter")
+if __name__ == '__main__':
+    padded_matrix = boundary_padding(matrix)
+    print_matrix(padded_matrix, "Padded Matrix")
+
+    min_filtered_matrix = min_filter(padded_matrix, filter_size=3)
+    print_matrix(min_filtered_matrix, name="Matrix after Min Filter")
+
+    max_filtered_matrix = max_filter(padded_matrix, filter_size=3)
+    print_matrix(max_filtered_matrix, name="Matrix after Max Filter")
