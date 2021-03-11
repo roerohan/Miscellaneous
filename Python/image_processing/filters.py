@@ -42,7 +42,8 @@ def boundary_padding(matrix, pad_element=0, type="zero_padding", boundary_size=1
 
     elif (type == "pixel_wrap"):
         new_matrix = [[None] * (size + 2) for _ in range(size + 2)]
-        print(new_matrix)
+        for i in range(new_matrix):
+            pass
 
     return matrix
 
