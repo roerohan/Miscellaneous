@@ -94,7 +94,22 @@ def median_filter(matrix, filter_size=3):
 
     return filtered_matrix
 
+def apply_custom_filter(matrix, custom_filter):
+    filter_size = len(custom_filter)
+    size = len(matrix) - (filter_size // 2) * 2
 
+    filtered_matrix = [[None] * size for _ in range(size)]
+
+    for row in range(size):
+        for col in range(size):
+            submatrix = get_submatrix(matrix, row, col, filter_size)
+            s = 0
+            for i in range(filter_size):
+                for j in range(filter_size):
+                    s += custom_filter[i][j] * submatrix[i][j]
+            filtered_matrix[row][col] = s
+
+    return filtered_matrix
 
 
 if __name__ == '__main__':
@@ -114,3 +129,8 @@ if __name__ == '__main__':
 
     median_filtered_matrix = median_filter(padded_matrix, filter_size=3)
     print_matrix(median_filtered_matrix, name="Matrix after Median Filter")
+
+    print("\nEnter the custom filter:")
+    custom_filter = input_matrix()
+    custom_filtered_matrix = apply_custom_filter(padded_matrix, custom_filter)
+    print_matrix(custom_filtered_matrix, name="Matrix after Custom Filter")
