@@ -18,7 +18,8 @@ def print_matrix(matrix, name="Matrix"):
     print("\n".join([" ".join([str(cell) for cell in row]) for row in matrix]))
 
 
-def zero_boundary_padding(matrix, pad_element=0):
+def boundary_padding(matrix, pad_element=0):
+    print(matrix)
     size = len(matrix)
     for i in range(size):
         matrix[i] = [pad_element] + matrix[i] + [pad_element]
@@ -94,10 +95,12 @@ def median_filter(matrix, filter_size=3):
     return filtered_matrix
 
 
+
+
 if __name__ == '__main__':
     matrix = input_matrix()
 
-    padded_matrix = zero_boundary_padding(matrix)
+    padded_matrix = boundary_padding(matrix)
     print_matrix(padded_matrix, "Padded Matrix")
 
     min_filtered_matrix = min_filter(padded_matrix, filter_size=3)
