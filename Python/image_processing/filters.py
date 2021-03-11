@@ -18,22 +18,24 @@ def print_matrix(matrix, name="Matrix"):
     print("\n".join([" ".join([str(cell) for cell in row]) for row in matrix]))
 
 
-def boundary_padding(matrix, pad_element=0, type="zero_padding"):
+def boundary_padding(matrix, pad_element=0, type="zero_padding", boundary_size=1):
     size = len(matrix)
     
     if (type == "zero_padding"):
-        for i in range(size):
-            matrix[i] = [pad_element] + matrix[i] + [pad_element]
-    
-        matrix.append([pad_element] * (size + 2))
-        matrix = [[pad_element] * (size + 2)] + matrix
+        for k in range(boundary_size):
+            for i in range(size + 2 * k):
+                matrix[i] = [pad_element] + matrix[i] + [pad_element]
+        
+            matrix.append([pad_element] * len(matrix[0]))
+            matrix = [[pad_element] * len(matrix[0])] + matrix
 
     elif (type == "pixel_replication"):
-        for i in range(size):
-            matrix[i] = [matrix[i][0]] + matrix[i] + [matrix[i][size - 1]]
+        for k in range(boundary_size):
+            for i in range(size + 2 * k):
+                matrix[i] = [matrix[i][0]] + matrix[i] + [matrix[i][size + k - 1]]
 
-        matrix.append(matrix[size - 1])
-        matrix = [matrix[0]] + matrix
+            matrix.append(matrix[size + k - 1])
+            matrix = [matrix[0]] + matrix
 
     return matrix
 
@@ -124,7 +126,7 @@ def apply_custom_filter(matrix, custom_filter):
 if __name__ == '__main__':
     matrix = input_matrix()
 
-    padded_matrix = boundary_padding(matrix, type="pixel_replication")
+    padded_matrix = boundary_padding(matrix, type="pixel_replication", boundary_size=1)
     print_matrix(padded_matrix, "Padded Matrix")
 
     min_filtered_matrix = min_filter(padded_matrix, filter_size=3)
