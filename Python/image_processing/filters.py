@@ -1,4 +1,5 @@
 from functools import reduce
+import copy
 
 def input_matrix():
     print("Size of matrix:", end=" ")
@@ -22,30 +23,31 @@ def print_matrix(matrix, name="Matrix"):
     print("\n".join(table))
 
 def boundary_padding(matrix, pad_element=0, type="zero_padding", boundary_size=1):
-    size = len(matrix)
+    new_matrix = copy.deepcopy(matrix)
+    size = len(new_matrix)
     
     if (type == "zero_padding"):
         for k in range(boundary_size):
             for i in range(size + 2 * k):
-                matrix[i] = [pad_element] + matrix[i] + [pad_element]
+                new_matrix[i] = [pad_element] + new_matrix[i] + [pad_element]
         
-            matrix.append([pad_element] * len(matrix[0]))
-            matrix = [[pad_element] * len(matrix[0])] + matrix
+            new_matrix.append([pad_element] * len(new_matrix[0]))
+            new_matrix = [[pad_element] * len(new_matrix[0])] + new_matrix
 
     elif (type == "pixel_replication"):
         for k in range(boundary_size):
             for i in range(size + 2 * k):
-                matrix[i] = [matrix[i][0]] + matrix[i] + [matrix[i][size + k - 1]]
+                new_matrix[i] = [new_matrix[i][0]] + new_matrix[i] + [new_matrix[i][size + k - 1]]
 
-            matrix.append(matrix[size + k - 1])
-            matrix = [matrix[0]] + matrix
+            new_matrix.append(new_matrix[size + k - 1])
+            new_matrix = [new_matrix[0]] + new_matrix
 
     elif (type == "pixel_wrap"):
-        new_matrix = [[None] * (size + 2) for _ in range(size + 2)]
-        for i in range(new_matrix):
+        new_new_matrix = [[None] * (size + 2) for _ in range(size + 2)]
+        for i in range(new_new_matrix):
             pass
 
-    return matrix
+    return new_matrix
 
 
 def get_submatrix(matrix, row, col, size):
@@ -64,6 +66,15 @@ def median(l):
     l.sort()
     mid = len(l) // 2
     return (l[mid] + l[~mid]) / 2
+
+
+def harmonic_mean(l):
+    sum = 0
+    for i in l:
+        if i == 0:
+            continue
+        sum += 1/i
+    return len(l)/sum
 
 
 def min_filter(matrix, filter_size=3):
@@ -113,6 +124,19 @@ def median_filter(matrix, filter_size=3):
 
     return filtered_matrix
 
+
+def harmonic_mean_filter(matrix, filter_size=3):
+    size = len(matrix) - (filter_size // 2) * 2
+    filtered_matrix = [[None] * size for _ in range(size)]
+
+    for row in range(size):
+        for col in range(size):
+            submatrix = get_submatrix(matrix, row, col, filter_size)
+            filtered_matrix[row][col] = harmonic_mean(reduce(lambda x, y: x + y, submatrix))
+
+    return filtered_matrix
+
+
 def apply_custom_filter(matrix, custom_filter):
     filter_size = len(custom_filter)
     size = len(matrix) - (filter_size // 2) * 2
@@ -137,6 +161,11 @@ if __name__ == '__main__':
     padded_matrix = boundary_padding(matrix, type="zero_padding", boundary_size=1)
     print_matrix(padded_matrix, "Padded Matrix")
 
+    print_matrix(matrix)
+
+    pixel_replicated_matrix = boundary_padding(matrix, type="pixel_replication", boundary_size=1)
+    print_matrix(pixel_replicated_matrix, "Pixel Replication Padded Matrix")
+
     min_filtered_matrix = min_filter(padded_matrix, filter_size=3)
     print_matrix(min_filtered_matrix, name="Matrix after Min Filter")
 
@@ -148,6 +177,9 @@ if __name__ == '__main__':
 
     median_filtered_matrix = median_filter(padded_matrix, filter_size=3)
     print_matrix(median_filtered_matrix, name="Matrix after Median Filter")
+
+    harmonic_mean_filtered_matrix = harmonic_mean_filter(pixel_replicated_matrix, filter_size=3)
+    print_matrix(harmonic_mean_filtered_matrix, name="Matrix after Harmonic Mean Filter")
 
     print("\nEnter the custom filter:")
     custom_filter = input_matrix()
