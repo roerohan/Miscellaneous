@@ -77,6 +77,10 @@ def harmonic_mean(l):
     return len(l)/sum
 
 
+def geometric_mean(l):
+    return (reduce(lambda x, y: x * y, l)) ** (1 / len(l))
+
+
 def min_filter(matrix, filter_size=3):
     size = len(matrix) - (filter_size // 2) * 2
     filtered_matrix = [[None] * size for _ in range(size)]
@@ -137,6 +141,18 @@ def harmonic_mean_filter(matrix, filter_size=3):
     return filtered_matrix
 
 
+def geometric_mean_filter(matrix, filter_size=3):
+    size = len(matrix) - (filter_size // 2) * 2
+    filtered_matrix = [[None] * size for _ in range(size)]
+
+    for row in range(size):
+        for col in range(size):
+            submatrix = get_submatrix(matrix, row, col, filter_size)
+            filtered_matrix[row][col] = geometric_mean(reduce(lambda x, y: x + y, submatrix))
+
+    return filtered_matrix
+
+
 def apply_custom_filter(matrix, custom_filter):
     filter_size = len(custom_filter)
     size = len(matrix) - (filter_size // 2) * 2
@@ -180,6 +196,9 @@ if __name__ == '__main__':
 
     harmonic_mean_filtered_matrix = harmonic_mean_filter(pixel_replicated_matrix, filter_size=3)
     print_matrix(harmonic_mean_filtered_matrix, name="Matrix after Harmonic Mean Filter")
+
+    geometric_mean_filtered_matrix = geometric_mean_filter(pixel_replicated_matrix, filter_size=3)
+    print_matrix(geometric_mean_filtered_matrix, name="Matrix after Geometric Mean Filter")
 
     print("\nEnter the custom filter:")
     custom_filter = input_matrix()
