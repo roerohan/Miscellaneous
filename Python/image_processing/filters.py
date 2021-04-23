@@ -86,7 +86,7 @@ def geometric_mean(l):
 
 
 def exponentiated_summation(l, q):
-    return reduce(lambda x, y: x ** q + y ** q, l)
+    return sum(map(lambda x: x ** q, l))
 
 
 def min_filter(matrix, filter_size=3):
@@ -181,7 +181,13 @@ def contraharmonic_mean_filter(matrix, filter_size=3, Q=0):
         for col in range(size):
             submatrix = get_submatrix(matrix, row, col, filter_size)
             flattened_submatrix = reduce(lambda x, y: x + y, submatrix)
-            filtered_matrix[row][col] = exponentiated_summation(flattened_submatrix, Q + 1) / exponentiated_summation(flattened_submatrix, Q)
+
+            denom = exponentiated_summation(flattened_submatrix, Q)
+            if (denom == 0):
+                filtered_matrix[row][col] = 0
+                continue
+
+            filtered_matrix[row][col] = exponentiated_summation(flattened_submatrix, Q + 1) / denom
 
     return filtered_matrix
 
@@ -236,10 +242,13 @@ if __name__ == '__main__':
     mid_point_filtered_matrix = mid_point_filter(padded_matrix, filter_size=3)
     print_matrix(mid_point_filtered_matrix, name="Matrix after Mid-point Filter")
 
-    Q = 0
-    # If Q = -1, it becomes harmonic, so use pixel replication
-    contraharmonic_mean_filtered_matrix = contraharmonic_mean_filter(padded_matrix, filter_size=3, Q=Q)
-    print_matrix(mid_point_filtered_matrix, name=f"Matrix after Contaharmonic Mean Filter with Q={Q}")
+    Q = -1
+    # If Q = -1, it becomes harmonic, so use pixel replication (for any negative value of Q)
+    inp_matrix = copy.deepcopy(padded_matrix)
+    if Q <= -1:
+        inp_matrix = copy.deepcopy(pixel_replicated_matrix)
+    contraharmonic_mean_filtered_matrix = contraharmonic_mean_filter(inp_matrix, filter_size=3, Q=Q)
+    print_matrix(contraharmonic_mean_filtered_matrix, name=f"Matrix after Contaharmonic Mean Filter with Q={Q}")
 
     print("\nEnter the custom filter:")
     custom_filter = input_matrix()
