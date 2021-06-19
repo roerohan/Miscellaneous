@@ -97,6 +97,16 @@ def idft(arr):
     return idftarr
 
 
+def mult(arr1, arr2):
+    l = len(arr1)
+    res = np.zeros(size=(l, l))
+    for i in range(l):
+        for j in range(l):
+            res[i][j] = arr1[i][j] * arr2[i][j]
+
+    return res
+
+
 if __name__ == '__main__':
     M = N = int(input("Enter the size of the matrix: "))
     d0 = float(input("Enter the value of D0: "))
