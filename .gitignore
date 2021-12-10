@@ -5,3 +5,6 @@ sjf_preemtive
 **/*.out
 C/Network and Communication/Sockets/*
 !C/Network and Communication/Sockets/*.c
+
+**/*/venv
+**/*/__pycache__
